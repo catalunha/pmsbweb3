@@ -113,6 +113,13 @@ class DefaultDrawer extends StatelessWidget {
                 Navigator.pushNamed(context, '/administracao/home');
               },
             ),
+             ListTile(
+              title: Text('Controle'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/controle/home');
+              },
+            ),
           ],
         ),
       ),

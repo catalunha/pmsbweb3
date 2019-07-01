@@ -29,7 +29,7 @@ class LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Container(
                 alignment: Alignment.center,
-                child: Image.asset('assets/images/logos/Splash_1024x1024.png'),
+                child: Image.asset('images/logos/Splash_1024x1024.png',height: 400),
               ),
               Container(
                 padding: EdgeInsets.symmetric(
