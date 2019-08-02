@@ -1,11 +1,18 @@
 import 'package:flutter_web/material.dart';
-import 'package:pmsbweb/pages/configuracoes/configuracoes_home_page.dart';
-import 'package:pmsbweb/pages/controle/controle_home_page.dart';
-import 'package:pmsbweb/pages/noticias/noticias_page.dart';
-import 'package:pmsbweb/pages/pages.dart';
-import 'package:pmsbweb/pages/perfil/perfil_home_page.dart';
+import 'package:firebase/firebase.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  initializeApp(
+    apiKey: "AIzaSyCKI8cjlLhrl2OXNhcPgjhky8k1xEXAquM",
+    authDomain: "pmsb-22-to.firebaseapp.com",
+    databaseURL: "https://pmsb-22-to.firebaseio.com",
+    projectId: "pmsb-22-to",
+    storageBucket: "pmsb-22-to.appspot.com",
+    messagingSenderId: "167336774894",
+  );
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -13,54 +20,54 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      initialRoute: "/",
-      routes: {
-              "/": (context) => LoginPage(),
-              "/home": (context) => NoticiasPage(),
-              //comunicacao
-              "/comunicacao": (context) => CommunicationPage(),
-              "/comunicacao/criar_editar": (context) => CommunicationCreateEdit(),
-              //produto
-              "/produto": (context) => ProductPage(),
-              "/produto/adicionar_editar": (context) => AddEditProduct(),
-              "/produto/lista": (context) => ProductList(),
-              "/produto/visual": (context) => ProductVisual(),
-              "/produto/editar_visual": (context) => EditVisual(),
-
-              "/questionario/home":(context) => QuestionarioHomePage(),
-              "/pergunta/home":(context) => PerguntaHomePage(),
-              "/aplicacao/home":(context) => AplicacaoHomePage(),
-              "/resposta/home":(context) => RespostaHomePage(),
-              "/sintese/home":(context) => SinteseHomePage(),
-
-               //administração
-              "/administracao/home":(context) => AdministracaoHomePage(),
-              "/administracao/perfil":(context) => AdministracaoPerfilPage(),
-
-              //controle
-              "/controle/home":(context) => ControleHomePage(),
-
-              "/perfil":(context) => PerfilHomePage(),
-              "/perfil/configuracao":(context) => ConfiguracoesHomePage()
-
-            },
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class Teste extends StatefulWidget {
-  @override
-  _TesteState createState() => _TesteState();
-}
+class MyHomePage extends StatelessWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
 
-class _TesteState extends State<Teste> {
+  final String title;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Column(
+          // Column is also layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (choose the "Toggle Debug Paint" action
+          // from the Flutter Inspector in Android Studio, or the "Toggle Debug
+          // Paint" command in Visual Studio Code) to see the wireframe for each
+          // widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Hello, World!',
+            ),
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

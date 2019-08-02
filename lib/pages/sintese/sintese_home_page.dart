@@ -5,21 +5,14 @@ class SinteseHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
+      backgroundColor: Colors.red,
+      title: Text("Síntese dos questionários"),
       body: Center(
-          child: Column(
-        children: <Widget>[
-          Padding(padding: EdgeInsets.all(30)),
-          Text(
-            "Aplicativo: Síntese",
-            style: Theme.of(context).textTheme.display1,
-          ),
-          Padding(padding: EdgeInsets.all(10)),
-          Image.asset(
-            "images/construcao.png",
-            width: 600,
-          ),
-        ],
-      )),
+        child: Text(
+          "Em construção.",
+          style: Theme.of(context).textTheme.display1,
+        ),
+      ),
     );
   }
 }

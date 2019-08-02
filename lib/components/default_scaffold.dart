@@ -1,23 +1,78 @@
 import 'package:flutter_web/material.dart';
+import 'package:pmsbweb/api/auth_api_mobile.dart';
+import 'package:pmsbweb/bootstrap.dart';
+import 'package:pmsbweb/models/usuario_model.dart';
+import 'package:pmsbweb/state/auth_bloc.dart';
+import 'package:pmsbweb/state/services.dart';
+
+var db = DatabaseService();
+
+class Rota {
+  final String nome;
+  final Icons;
+
+  Rota(this.nome, this.Icons);
+}
 
 class DefaultDrawer extends StatelessWidget {
+  final AuthBloc authBloc;
+  Map<String, Rota> rotas;
+  DefaultDrawer(): authBloc= AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore){
+    // Map<String, Rota>
+    rotas = Map<String, Rota>();
+    rotas["/desenvolvimento"] = Rota("Desenvolvimento", Icons.build);
+    rotas["/"] = Rota("Home", Icons.home);
+    rotas["/upload"] = Rota("Upload de arquivos", Icons.file_upload);
+    rotas["/questionario/home"] = Rota("Questionários", Icons.assignment);
+    rotas["/aplicacao/home"] =
+        Rota("Aplicar Questionário", Icons.directions_walk);
+    rotas["/resposta/home"] = Rota("Resposta", Icons.playlist_add_check);
+    rotas["/sintese/home"] = Rota("Síntese", Icons.equalizer);
+    rotas["/produto/home"] = Rota("Produto", Icons.chrome_reader_mode);
+    rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
+    rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
+    rotas["/controle/home"] = Rota("Controle", Icons.control_point);
+    
+  }
   @override
   Widget build(BuildContext context) {
-    //var authBloc = Provider.of<AuthBloc>(context);
+    // var authBloc = Provider.of<AuthBloc>(context);
     return Drawer(
-      child: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: SafeArea(
+      child: Column(
+          // padding: EdgeInsets.zero,
           children: <Widget>[
-            /** 
-            StreamBuilder<PerfilUsuarioModel>(
+            StreamBuilder<UsuarioModel>(
               stream: authBloc.perfil,
               builder: (context, snap) {
-                if (snap.data == null)
+                if (snap.hasError) {
+                  return Center(
+                    child: Text("Erro"),
+                  );
+                }
+                if (!snap.hasData)
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-
+                Widget imagem = Icon(Icons.people, size: 75);
+                if (snap.data?.foto?.localPath != null) {
+                  imagem = Container(
+                      color: Colors.yellow,
+                      child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: CircleAvatar(
+                            backgroundImage:
+                                ExactAssetImage(snap.data?.foto?.localPath),
+                            minRadius: 50,
+                            maxRadius: 50,
+                          )));
+                } else if (snap.data?.foto?.url != null) {
+                  imagem = CircleAvatar(
+                    backgroundImage: NetworkImage(snap.data?.foto?.url),
+                    minRadius: 50,
+                    maxRadius: 50,
+                  );
+                }
                 return DrawerHeader(
                   child: Container(
                     decoration: BoxDecoration(
@@ -28,115 +83,109 @@ class DefaultDrawer extends StatelessWidget {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Expanded(
-                          child: snap.data.imagemPerfilUrl == null
-                              ? Icon(Icons.people, size: 75)
-                              : SquareImage(
-                                  image:
-                                      NetworkImage(snap.data.imagemPerfilUrl)),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(flex: 4, child: imagem),
+                            Expanded(
+                              flex: 8,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text("${snap.data.nome}"),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text("${snap.data.celular}"),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
-                          child: Text("${snap.data.celular}"),
+                          child: Text("${snap.data.email}"),
                         ),
                       ],
                     ),
                   ),
                 );
-      
-              },
-      
-            ),
-             */
-            ListTile(
-              title: Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/home');
               },
             ),
-            ListTile(
-              title: Text('Questionarios'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/questionario/home');
-              },
-            ),
-            ListTile(
-              title: Text('Perguntas'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/pergunta/home');
-              },
-            ),
-            ListTile(
-              title: Text('Aplicação'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/aplicacao/home');
-              },
-            ),
-            ListTile(
-              title: Text('Respostas'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/resposta/home');
-              },
-            ),
-            ListTile(
-              title: Text('Síntese'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/sintese/home');
-              },
-            ),
-            ListTile(
-              title: Text('Produto'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/produto');
-              },
-            ),
-            ListTile(
-              title: Text('Comunicação'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/comunicacao');
-              },
-            ),
-            ListTile(
-              title: Text('Administração'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/administracao/home');
-              },
-            ),
-             ListTile(
-              title: Text('Controle'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/controle/home');
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+            StreamBuilder<UsuarioModel>(
+                stream: authBloc.perfil,
+                builder: (context, snap) {
+                  if (snap.hasError) {
+                    return Center(
+                      child: Text("Erro"),
+                    );
+                  }
+                  // if (!snap.hasData) {
+                  //   return Center(
+                  //     child: CircularProgressIndicator(),
+                  //   );
+                  // }
+                  List<Widget> list = List<Widget>();
+                  if (snap.data == null ||
+                      snap.data.routes == null ||
+                      snap.data.routes.isEmpty) {
+                    list.add(Container());
+                  } else {
+                    rotas.forEach((k, v) {
+                      if (snap.data.routes.contains(k)) {
+                        list.add(ListTile(
+                          title: Text(v.nome),
+                          trailing: Icon(v.Icons),
+                          onTap: () {
+                            Navigator.pushReplacementNamed(context, k);
+                          },
+                        ));
+                      }
+                    });
+                  }
+                  if (list.isEmpty || list == null) {
+                    list.add(Container());
+                  }
+                  return Expanded(child: ListView(children: list));
+                })
+          ]),
+    ));
   }
 }
 
 class DefaultEndDrawer extends StatelessWidget {
+
+  final AuthBloc authBloc;
+  DefaultEndDrawer(): authBloc= AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+
+
   @override
   Widget build(BuildContext context) {
-    //UserRepository userRepository = Provider.of<UserRepository>(context);
-
+    // var authBloc = Provider.of<AuthBloc>(context);
     return Drawer(
       child: SafeArea(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
+            ListTile(
+              title: Text('Configurações'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, "/perfil/configuracao");
+              },
+              leading: Icon(Icons.settings),
+            ),
+            Divider(
+              color: Colors.black45,
+            ),
             ListTile(
               title: Text('Perfil'),
               onTap: () {
@@ -144,29 +193,29 @@ class DefaultEndDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, "/perfil");
               },
+              leading: Icon(Icons.person),
+            ),
+            Divider(
+              color: Colors.black45,
             ),
             ListTile(
-              title: Text('Noticias Arquivadas'),
+              title: Text('Noticias lidas'),
               onTap: () {
                 //noticias arquivadas
                 Navigator.pop(context);
                 Navigator.pushNamed(context, "/noticias/noticias_visualizadas");
               },
+              leading: Icon(Icons.event_available),
+            ),
+            Divider(
+              color: Colors.black45,
             ),
             ListTile(
-              title: Text('Configurações'),
+              title: Text('Trocar de usuário'),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, "/perfil/configuracao");
+                authBloc.dispatch(LogoutAuthBlocEvent());
               },
-            ),
-            ListTile(
-              title: Text('Sair'),
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, "/", (Route<dynamic> route) => false);
-                //userRepository.signOut();
-              },
+              leading: Icon(Icons.exit_to_app),
             ),
           ],
         ),
@@ -192,6 +241,7 @@ class DefaultScaffold extends StatelessWidget {
   final Widget floatingActionButton;
   final Widget title;
   final Widget actions;
+  final Widget bottom;
   final Color backgroundColor;
 
   const DefaultScaffold(
@@ -200,7 +250,8 @@ class DefaultScaffold extends StatelessWidget {
       this.floatingActionButton,
       this.title,
       this.actions,
-      this.backgroundColor})
+      this.backgroundColor,
+      this.bottom})
       : super(key: key);
 
   Widget _appBarBuild(BuildContext context) {
@@ -212,6 +263,7 @@ class DefaultScaffold extends StatelessWidget {
       //leading: Text("leading"),
       centerTitle: true,
       title: title,
+      bottom: bottom,
     );
   }
 
