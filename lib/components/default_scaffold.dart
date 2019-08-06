@@ -15,9 +15,11 @@ class Rota {
 }
 
 class DefaultDrawer extends StatelessWidget {
+
   final AuthBloc authBloc;
   Map<String, Rota> rotas;
-  DefaultDrawer(): authBloc= AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore){
+  DefaultDrawer()
+      : authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore) {
     // Map<String, Rota>
     rotas = Map<String, Rota>();
     rotas["/desenvolvimento"] = Rota("Desenvolvimento", Icons.build);
@@ -32,112 +34,117 @@ class DefaultDrawer extends StatelessWidget {
     rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
     rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
     rotas["/controle/home"] = Rota("Controle", Icons.control_point);
-    
   }
   @override
   Widget build(BuildContext context) {
     // var authBloc = Provider.of<AuthBloc>(context);
+    print("k >> teste");
     return Drawer(
         child: SafeArea(
       child: Column(
           // padding: EdgeInsets.zero,
           children: <Widget>[
-            StreamBuilder<UsuarioModel>(
-              stream: authBloc.perfil,
-              builder: (context, snap) {
-                if (snap.hasError) {
-                  return Center(
-                    child: Text("Erro"),
-                  );
-                }
-                if (!snap.hasData)
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                Widget imagem = Icon(Icons.people, size: 75);
-                if (snap.data?.foto?.localPath != null) {
-                  imagem = Container(
-                      color: Colors.yellow,
-                      child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: CircleAvatar(
-                            backgroundImage:
-                                ExactAssetImage(snap.data?.foto?.localPath),
-                            minRadius: 50,
-                            maxRadius: 50,
-                          )));
-                } else if (snap.data?.foto?.url != null) {
-                  imagem = CircleAvatar(
-                    backgroundImage: NetworkImage(snap.data?.foto?.url),
-                    minRadius: 50,
-                    maxRadius: 50,
-                  );
-                }
-                return DrawerHeader(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                            color: Theme.of(context).textTheme.title.color),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(flex: 4, child: imagem),
-                            Expanded(
-                              flex: 8,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 12),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Text("${snap.data.nome}"),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Text("${snap.data.celular}"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Text("${snap.data.email}"),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            // StreamBuilder<UsuarioModel>(
+            //   stream: authBloc.perfil,
+            //   builder: (context, snap) {
+            //     if (snap.hasError) {
+            //       return Center(
+            //         child: Text("Erro"),
+            //       );
+            //     }
+            //     if (!snap.hasData)
+            //       return Center(
+            //         child: CircularProgressIndicator(),
+            //       );
+            //     Widget imagem = Icon(Icons.people, size: 75);
+            //     if (snap.data?.foto?.localPath != null) {
+            //       imagem = Container(
+            //           color: Colors.yellow,
+            //           child: Padding(
+            //               padding: const EdgeInsets.all(2.0),
+            //               child: CircleAvatar(
+            //                 backgroundImage:
+            //                     ExactAssetImage(snap.data?.foto?.localPath),
+            //                 minRadius: 50,
+            //                 maxRadius: 50,
+            //               )));
+            //     } else if (snap.data?.foto?.url != null) {
+            //       imagem = CircleAvatar(
+            //         backgroundImage: NetworkImage(snap.data?.foto?.url),
+            //         minRadius: 50,
+            //         maxRadius: 50,
+            //       );
+            //     }
+            //     return DrawerHeader(
+            //       child: Container(
+            //         decoration: BoxDecoration(
+            //           border: Border(
+            //             bottom: BorderSide(
+            //                 color: Theme.of(context).textTheme.title.color),
+            //           ),
+            //         ),
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: <Widget>[
+            //             Row(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //               children: <Widget>[
+            //                 Expanded(flex: 4, child: imagem),
+            //                 Expanded(
+            //                   flex: 8,
+            //                   child: Container(
+            //                     padding: EdgeInsets.only(left: 12),
+            //                     child: Column(
+            //                       crossAxisAlignment: CrossAxisAlignment.start,
+            //                       children: <Widget>[
+            //                         Padding(
+            //                           padding: const EdgeInsets.only(top: 8),
+            //                           child: Text("${snap.data.nome}"),
+            //                         ),
+            //                         Padding(
+            //                           padding: const EdgeInsets.only(top: 8),
+            //                           child: Text("${snap.data.celular}"),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //             Padding(
+            //               padding: const EdgeInsets.only(top: 8),
+            //               child: Text("${snap.data.email}"),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
+            // /
+
             StreamBuilder<UsuarioModel>(
                 stream: authBloc.perfil,
-                builder: (context, snap) {
+                builder: (BuildContext context,
+                AsyncSnapshot<UsuarioModel> snap) {
                   if (snap.hasError) {
                     return Center(
                       child: Text("Erro"),
                     );
                   }
-                  // if (!snap.hasData) {
-                  //   return Center(
-                  //     child: CircularProgressIndicator(),
-                  //   );
-                  // }
+                  if (!snap.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   List<Widget> list = List<Widget>();
-                  if (snap.data == null ||
-                      snap.data.routes == null ||
+                  if (snap.data == null || snap.data.routes == null ||
                       snap.data.routes.isEmpty) {
-                    list.add(Container());
+                    list.add(Container(
+                      height: 50,
+                      color: Colors.green,
+                    ));
                   } else {
                     rotas.forEach((k, v) {
                       if (snap.data.routes.contains(k)) {
@@ -152,9 +159,17 @@ class DefaultDrawer extends StatelessWidget {
                     });
                   }
                   if (list.isEmpty || list == null) {
-                    list.add(Container());
+                    list.add(Container(color: Colors.red));
                   }
                   return Expanded(child: ListView(children: list));
+
+                  // return ListTile(
+                  //         title: Text("v.nome"),
+                  //         trailing: Icon(Icons.ac_unit),
+                  //         onTap: () {
+                  //           //Navigator.pushReplacementNamed(context, k);
+                  //         },
+                  //       );
                 })
           ]),
     ));
@@ -162,10 +177,9 @@ class DefaultDrawer extends StatelessWidget {
 }
 
 class DefaultEndDrawer extends StatelessWidget {
-
   final AuthBloc authBloc;
-  DefaultEndDrawer(): authBloc= AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
-
+  DefaultEndDrawer()
+      : authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
 
   @override
   Widget build(BuildContext context) {

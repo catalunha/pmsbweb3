@@ -2,7 +2,7 @@ import 'package:pmsbweb/api/auth_api_mobile.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/models/models.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pmsbweb/models/noticia_model.dart';
 import 'package:firestore_wrapper/firestore_wrapper.dart' as fw;
 
