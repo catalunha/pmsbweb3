@@ -1,15 +1,15 @@
-import 'dart:async';
-import 'dart:io';
+// import 'dart:async';
+// import 'dart:io';
 
 import 'package:pmsbweb/models/propriedade_for_model.dart';
 import 'package:pmsbweb/models/upload_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:firestore_wrapper/firestore_wrapper.dart' as fsw;
-import 'package:pmsbweb/bootstrap.dart';
-import 'package:pmsbweb/state/upload_bloc.dart';
+// import 'package:pmsbweb/bootstrap.dart';
+// import 'package:pmsbweb/state/upload_bloc.dart';
 import 'package:pmsbweb/models/usuario_perfil_model.dart';
 
 class PerfilCRUDArqPageEvent {}

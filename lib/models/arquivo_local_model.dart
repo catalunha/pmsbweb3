@@ -1,7 +1,7 @@
 import 'package:flutter_web/widgets.dart';
-import 'dart:io';
+// import 'dart:io';
 
-import 'dart:async';
+// import 'dart:async';
 
 class ArquivoLocalModel {
   String nome;
@@ -48,9 +48,10 @@ class ArquivoLocalListModel {
         });
   }
 
-  // pegar arquivo de um local do so
-  Future<File> localFile(String _localPath) async {
-    final path = await _localPath;
-    return File('$path');
-  }
+  //TODO: 
+  // // pegar arquivo de um local do so
+  // Future<File> localFile(String _localPath) async {
+  //   final path = await _localPath;
+  //   return File('$path');
+  // }
 }

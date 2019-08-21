@@ -1,11 +1,9 @@
 import 'package:flutter_web/material.dart';
-import 'package:flutter_web_markdown/flutter_web_markdown.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/components/default_scaffold.dart';
 import 'package:pmsbweb/models/noticia_model.dart';
 import 'package:pmsbweb/models/usuario_model.dart';
 import 'package:pmsbweb/pages/comunicacao/noticia_page_bloc.dart';
-import 'package:provider/provider.dart';
 
 import 'comunicacao_home_page_bloc.dart';
 
@@ -52,11 +50,12 @@ class NoticiaLidaPage extends StatelessWidget {
                             },
                           ),
                         ),
-                        ListTile(
-                          title: MarkdownBody(
-                            data: "${noticia.textoMarkdown}",
-                          ),
-                        ),
+                        //TODO: EXIBICAO DE MARKDOWN
+                        // ListTile(
+                        //   title: MarkdownBody(
+                        //     data: "${noticia.textoMarkdown}",
+                        //   ),
+                        // ),
                         // Container(
                         //   // padding: EdgeInsets.symmetric(vertical: 6),
                         //   child: Text(

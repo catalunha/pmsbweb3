@@ -3,46 +3,54 @@ import 'package:pmsbweb/api/auth_api_mobile.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/models/usuario_model.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pmsbweb/models/noticia_model.dart';
 
 import 'package:pmsbweb/state/auth_bloc.dart';
 
 class ComunicacaoCRUDPageEvent {}
+
 class UpDateUsuarioIDEditorEvent extends ComunicacaoCRUDPageEvent {
   final String usuarioIDEditorId;
 
   UpDateUsuarioIDEditorEvent(this.usuarioIDEditorId);
 }
+
 class UpdateNoticiaIDEvent extends ComunicacaoCRUDPageEvent {
   final String noticiaID;
 
   UpdateNoticiaIDEvent(this.noticiaID);
 }
+
 class DeleteNoticiaIDEvent extends ComunicacaoCRUDPageEvent {
   DeleteNoticiaIDEvent();
 }
+
 class UpdateTituloEvent extends ComunicacaoCRUDPageEvent {
   final String titulo;
 
   UpdateTituloEvent(this.titulo);
 }
+
 class UpdateDestinatarioListEvent extends ComunicacaoCRUDPageEvent {
   List<Map<dynamic, dynamic>> destinatarioList = List<Map<dynamic, dynamic>>();
 
   UpdateDestinatarioListEvent(this.destinatarioList);
 }
+
 class UpdatePublicarEvent extends ComunicacaoCRUDPageEvent {
   final DateTime data;
   final TimeOfDay hora;
 
   UpdatePublicarEvent({this.data, this.hora});
 }
+
 class UpdateTextoMarkdownEvent extends ComunicacaoCRUDPageEvent {
   final String textoMarkdown;
 
   UpdateTextoMarkdownEvent(this.textoMarkdown);
 }
+
 class SaveStateToFirebaseEvent extends ComunicacaoCRUDPageEvent {}
 
 class ComunicacaoCRUDPageState {
@@ -56,8 +64,7 @@ class ComunicacaoCRUDPageState {
   DateTime publicar = DateTime.now();
   DateTime data;
   TimeOfDay hora;
-  List<Map<String, dynamic>> destinatarioListMap =
-      List<Map<String, dynamic>>();
+  List<Map<String, dynamic>> destinatarioListMap = List<Map<String, dynamic>>();
 
 /*
 [
@@ -154,17 +161,20 @@ class ComunicacaoCRUDPageBloc {
 
   _mapEventToState(ComunicacaoCRUDPageEvent event) {
     if (event is UpDateUsuarioIDEditorEvent) {
-      Firestore.instance
-          .collection(UsuarioModel.collection)
-          .document(event.usuarioIDEditorId)
-          .snapshots()
-          .listen((documentSnapshot) {
-        UsuarioIDEditor usuarioIDEditor = UsuarioIDEditor(
-            id: documentSnapshot.documentID,
-            nome: documentSnapshot.data['nome']);
-        comunicacaoCRUDPageState.usuarioIDEditor = usuarioIDEditor;
-        _comunicacaoCRUDPageStateController.sink.add(comunicacaoCRUDPageState);
-      });
+      /**
+     * TODO: alteracao no firebase
+     */
+      // Firestore.instance
+      //     .collection(UsuarioModel.collection)
+      //     .document(event.usuarioIDEditorId)
+      //     .snapshots()
+      //     .listen((documentSnapshot) {
+      //   UsuarioIDEditor usuarioIDEditor = UsuarioIDEditor(
+      //       id: documentSnapshot.documentID,
+      //       nome: documentSnapshot.data['nome']);
+      //   comunicacaoCRUDPageState.usuarioIDEditor = usuarioIDEditor;
+      //   _comunicacaoCRUDPageStateController.sink.add(comunicacaoCRUDPageState);
+      // });
     }
     if (event is UpdateNoticiaIDEvent) {
       _mapUpdateNoticiaIdEvent(event);
@@ -225,31 +235,40 @@ class ComunicacaoCRUDPageBloc {
   }
 
   _saveStateToFirebase() {
-    final map = comunicacaoCRUDPageState.toNoticiaModel().toMap();
-    // // print(map);
-    final docRef = Firestore.instance
-        .collection(NoticiaModel.collection)
-        .document(comunicacaoCRUDPageState.noticiaID);
-    // docRef.setData(map, merge: true); // se deixar merge ele amplia a lista e nao exclui.
-    docRef.setData(map);
+    /**
+     * TODO: alteracao no firebase
+     */
+    // final map = comunicacaoCRUDPageState.toNoticiaModel().toMap();
+    // // // print(map);
+    // final docRef = Firestore.instance
+    //     .collection(NoticiaModel.collection)
+    //     .document(comunicacaoCRUDPageState.noticiaID);
+    // // docRef.setData(map, merge: true); // se deixar merge ele amplia a lista e nao exclui.
+    // docRef.setData(map);
   }
 
   _deleteNoticiaIdEvent() {
-    Firestore.instance
-        .collection(NoticiaModel.collection)
-        .document(comunicacaoCRUDPageState.noticiaID)
-        .delete();
+    /**
+     * TODO: alteracao no firebase
+     */
+    // Firestore.instance
+    //     .collection(NoticiaModel.collection)
+    //     .document(comunicacaoCRUDPageState.noticiaID)
+    //     .delete();
   }
 
   void _mapUpdateNoticiaIdEvent(UpdateNoticiaIDEvent event) {
-    if (event.noticiaID == comunicacaoCRUDPageState.noticiaID) return;
-    var ref = Firestore.instance
-        .collection(NoticiaModel.collection)
-        .document(event.noticiaID);
-    ref.snapshots().listen((DocumentSnapshot snap) {
-      var noticia = NoticiaModel(id: snap.documentID).fromMap(snap.data);
-      comunicacaoCRUDPageState.fromNoticiaModel(noticia);
-      _comunicacaoCRUDPageStateController.sink.add(comunicacaoCRUDPageState);
-    });
+    /**
+     * TODO: alteracao no firebase
+     */
+    // if (event.noticiaID == comunicacaoCRUDPageState.noticiaID) return;
+    // var ref = Firestore.instance
+    //     .collection(NoticiaModel.collection)
+    //     .document(event.noticiaID);
+    // ref.snapshots().listen((DocumentSnapshot snap) {
+    //   var noticia = NoticiaModel(id: snap.documentID).fromMap(snap.data);
+    //   comunicacaoCRUDPageState.fromNoticiaModel(noticia);
+    //   _comunicacaoCRUDPageStateController.sink.add(comunicacaoCRUDPageState);
+    // });
   }
 }

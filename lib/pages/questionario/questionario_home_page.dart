@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/components/default_scaffold.dart';
 import 'package:pmsbweb/components/eixo.dart';
@@ -7,7 +7,7 @@ import 'package:pmsbweb/pages/questionario/questionario_home_page_bloc.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/services/gerador_md_service.dart';
 import 'package:pmsbweb/state/auth_bloc.dart';
-import 'package:pmsbweb/services/services.dart';
+// import 'package:pmsbweb/services/services.dart';
 
 class QuestionarioHomePage extends StatelessWidget {
   final QuestionarioHomePageBloc bloc;
@@ -153,10 +153,10 @@ class QuestionarioItem extends StatelessWidget {
                   tooltip: 'Conferir todas as perguntas criadas',
                   icon: Icon(Icons.picture_as_pdf),
                   onPressed: () async {
-                    var mdtext =
-                        await GeradorMdService.generateMdFromQuestionarioModel(
-                            _questionario);
-                    GeradorPdfService.generatePdfFromMd(mdtext);
+                    // var mdtext =
+                    //     await GeradorMdService.generateMdFromQuestionarioModel(
+                    //         _questionario);
+                    // GeradorPdfService.generatePdfFromMd(mdtext);
                   },
                 ),
                 IconButton(

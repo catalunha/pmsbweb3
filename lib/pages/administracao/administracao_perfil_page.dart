@@ -1,7 +1,7 @@
 import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/models/usuario_model.dart';
 import 'package:pmsbweb/models/usuario_perfil_model.dart';
-import 'package:pmsbweb/services/services.dart';
+// import 'package:pmsbweb/services/services.dart';
 import 'administracao_perfil_page_bloc.dart';
 import 'package:pmsbweb/bootstrap.dart';
 //import 'package:url_launcher/url_launcher.dart';
@@ -114,9 +114,9 @@ class AdministracaoPerfilPage extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.border_bottom),
                     onPressed: () {
-                      GeradorCsvService.generateCsvFromUsuarioModel(
-                          usuarioModelData);
-                      //launch(snapshotState.data.urlCSV);
+                      // GeradorCsvService.generateCsvFromUsuarioModel(
+                      //     usuarioModelData);
+                      // //launch(snapshotState.data.urlCSV);
                     },
                   ),
                   // Text('web'),
@@ -130,9 +130,9 @@ class AdministracaoPerfilPage extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.picture_as_pdf),
                     onPressed: () {
-                      var mdtext = GeradorMdService.generateMdFromUsuarioModel(
-                          usuarioModelData);
-                      GeradorPdfService.generatePdfFromMd(mdtext);
+                      // var mdtext = GeradorMdService.generateMdFromUsuarioModel(
+                      //     usuarioModelData);
+                      // GeradorPdfService.generatePdfFromMd(mdtext);
                     },
                   ),
                 ],
