@@ -3,6 +3,8 @@ import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/state/auth_bloc.dart';
 import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/pages/autenticacao/login.dart';
+import 'package:pmsbweb/pages/geral/loading.dart';
+import 'package:pmsbweb/pages/geral/splash.dart';
 
 class LoginRequired extends StatelessWidget {
   final Widget loginPage;
@@ -24,7 +26,7 @@ class LoginRequired extends StatelessWidget {
     return StreamBuilder<AuthStatus>(
       stream: bloc.status,
       builder: (context, snapshot) {
-        Widget r;
+        Widget r = loadingPage;
         if (snapshot.hasError) {
           r = Center(
             child: Text("ERROR"),
@@ -62,11 +64,10 @@ class DefaultLoginRequired extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoginRequired(
-      // splashPage: SplashPage(this.authBloc),
+      splashPage: SplashPage(),
       loginPage: LoginPage(),
-      // loadingPage: LoadingPage(),
+      loadingPage: LoadingPage(),
       child: child,
-      // authBloc: this.authBloc,
     );
   }
 }
