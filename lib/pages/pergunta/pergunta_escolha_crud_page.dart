@@ -39,9 +39,6 @@ class _PerguntaEscolhaCRUDPageState extends State<PerguntaEscolhaCRUDPage> {
   @override
   Widget build(BuildContext context) {
     return 
-    // Provider<PerguntaEscolhaCRUDPageBloc>.value(
-    //   value: bloc,
-    //   child: 
       Scaffold(
         appBar: AppBar(
             title: Text((widget.escolhaUID != null ? "Editar" : "Adicionar") +
@@ -73,7 +70,6 @@ class _PerguntaEscolhaCRUDPageState extends State<PerguntaEscolhaCRUDPage> {
             ),
           ],
         ),
-      // ),
     );
   }
 }
@@ -93,7 +89,6 @@ class TextoDaEscolhaState extends State<TextoDaEscolha> {
   TextoDaEscolhaState(this.bloc);
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<PerguntaEscolhaCRUDPageBloc>(context);
     return StreamBuilder<PerguntaEscolhaCRUDPageState>(
       stream: bloc.stateStream,
       builder: (BuildContext context,
@@ -132,7 +127,6 @@ final PerguntaEscolhaCRUDPageBloc bloc;
 _DeleteDocumentOrFieldState(this.bloc);
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<PerguntaEscolhaCRUDPageBloc>(context);
     return StreamBuilder<PerguntaEscolhaCRUDPageState>(
       stream: bloc.stateStream,
       builder: (BuildContext context,
@@ -145,9 +139,6 @@ _DeleteDocumentOrFieldState(this.bloc);
               child: Flexible(
                 child: TextField(
                   controller: _textFieldController,
-                  // onChanged: (text) {
-                  //   bloc.eventSink(DeleteProdutoIDEvent);
-                  // },
                 ),
               ),
             ),

@@ -62,7 +62,10 @@ class MyApp extends StatelessWidget {
 
             //questionario
             "/questionario/home": (context) => QuestionarioHomePage(authBloc),
-            "/questionario/form": (context) => QuestionarioFormPage(authBloc),
+            "/questionario/form": (context) => QuestionarioFormPage(
+              authBloc,
+              ModalRoute.of(context).settings.arguments,
+            ),
 
             //pergunta
             "/pergunta/home": (context) {
