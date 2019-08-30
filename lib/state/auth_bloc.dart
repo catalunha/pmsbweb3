@@ -26,6 +26,7 @@ class UpdatePasswordAuthBlocEvent extends AuthBlocEvent {
 }
 
 class LoginAuthBlocEvent extends AuthBlocEvent {}
+
 class LogoutAuthBlocEvent extends AuthBlocEvent {}
 
 class AuthBlocState {
@@ -41,12 +42,13 @@ class AuthBloc {
   final AuthApi _authApi;
 
   //AuthStatus
-  final _statusController = BehaviorSubject<AuthStatus>.seeded(AuthStatus.Uninitialized);
+  final _statusController =
+      BehaviorSubject<AuthStatus>.seeded(AuthStatus.Uninitialized);
   Stream<AuthStatus> get status => _statusController.stream;
 
   //State
   final _state = AuthBlocState();
-  
+
   //UserId
   final _userId = BehaviorSubject<String>();
   Stream<String> get userId => _userId.stream;
@@ -85,8 +87,7 @@ class AuthBloc {
         _firestore.collection(UsuarioModel.collection).document(userId);
 
     final perfilStream = perfilRef.snapshots().map((perfilSnap) =>
-        UsuarioModel(id: perfilSnap.documentID)
-            .fromMap(perfilSnap.data));
+        UsuarioModel(id: perfilSnap.documentID).fromMap(perfilSnap.data));
     if (_perfilSubscription != null) {
       _perfilSubscription.cancel().then((_) {
         _perfilSubscription = perfilStream.listen(_pipPerfil);
@@ -100,38 +101,32 @@ class AuthBloc {
     _userId.sink.add(userId);
   }
 
-  void _pipPerfil(UsuarioModel perfil) {
+  void _pipPerfil(UsuarioModel perfil) {    
     _perfilController.sink.add(perfil);
   }
 
   void _updateStatus(String userId) {
     if (userId == null) {
       _statusController.sink.add(AuthStatus.Unauthenticated);
-    }
-    else{
+    } else {
       _statusController.sink.add(AuthStatus.Authenticated);
     }
   }
 
   void _handleInputEvent(AuthBlocEvent event) {
-    if(event is UpdateEmailAuthBlocEvent){
+    if (event is UpdateEmailAuthBlocEvent) {
       _state.email = event.email;
-    }
-    else if(event is UpdatePasswordAuthBlocEvent){
+    } else if (event is UpdatePasswordAuthBlocEvent) {
       _state.passord = event.password;
-    }
-    else if(event is LoginAuthBlocEvent){
+    } else if (event is LoginAuthBlocEvent) {
       _handleLoginAuthBlocEvent();
-    }
-    else if(event is LogoutAuthBlocEvent){
+    } else if (event is LogoutAuthBlocEvent) {
       _authApi.logout();
-      
     }
   }
 
-  void _handleLoginAuthBlocEvent(){
+  void _handleLoginAuthBlocEvent() {
     _statusController.sink.add(AuthStatus.Authenticating);
     _authApi.loginWithEmailAndPassword(_state.email, _state.passord);
   }
-
 }
