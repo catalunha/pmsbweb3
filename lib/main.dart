@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         MaterialApp(
           title: 'PMSB',
           //theme: ThemeData.dark(),
+          //initialRoute: "/",
           initialRoute: "/",
           routes: {
             //homePage
@@ -114,15 +115,15 @@ class MyApp extends StatelessWidget {
             },
 
             //aplicacao
-            "/aplicacao/home": (context) => AplicacaoHomePage(),
-            "/aplicacao/momento_aplicacao": (context) => MomentoAplicacaoPage(),
-            "/aplicacao/aplicando_pergunta": (context) =>
-                AplicacaoPerguntaPage(),
-            "/aplicacao/pendencias": (context) => PendenciasPage(),
-            "/aplicacao/visualizar_respostas": (context) =>
-                VisualizarRespostasPage(),
-            "/aplicacao/definir_requisitos": (context) =>
-                DefinirRequisistosPage(),
+            // "/aplicacao/home": (context) => AplicacaoHomePage(),
+            // "/aplicacao/momento_aplicacao": (context) => MomentoAplicacaoPage(),
+            // "/aplicacao/aplicando_pergunta": (context) =>
+            //     AplicacaoPerguntaPage(),
+            // "/aplicacao/pendencias": (context) => PendenciasPage(),
+            // "/aplicacao/visualizar_respostas": (context) =>
+            //     VisualizarRespostasPage(),
+            // "/aplicacao/definir_requisitos": (context) =>
+            //     DefinirRequisistosPage(),
 
             //resposta
             "/resposta/home": (context) => RespostaHomePage(),

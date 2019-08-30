@@ -16,21 +16,20 @@ class DefaultDrawer extends StatelessWidget {
   DefaultDrawer() : authBloc = Bootstrap.instance.authBloc {
     // Map<String, Rota>
     rotas = Map<String, Rota>();
-    rotas["/desenvolvimento"] = Rota("Desenvolvimento", Icons.build);
-    rotas["/"] = Rota("Home", Icons.home);
-    rotas["/upload"] = Rota("Upload de arquivos", Icons.file_upload);
+    //rotas["/desenvolvimento"] = Rota("Desenvolvimento", Icons.build);
+    //rotas["/"] = Rota("Home", Icons.home);
+    // rotas["/upload"] = Rota("Upload de arquivos", Icons.file_upload);
     rotas["/questionario/home"] = Rota("Questionários", Icons.assignment);
-    rotas["/aplicacao/home"] =
-        Rota("Aplicar Questionário", Icons.directions_walk);
+    //rotas["/aplicacao/home"] = Rota("Aplicar Questionário", Icons.directions_walk);
     rotas["/resposta/home"] = Rota("Resposta", Icons.playlist_add_check);
     rotas["/sintese/home"] = Rota("Síntese", Icons.equalizer);
     rotas["/produto/home"] = Rota("Produto", Icons.chrome_reader_mode);
-    rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
+    //rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
     rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
     rotas["/controle/home"] = Rota("Controle", Icons.control_point);
   }
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -172,8 +171,7 @@ class DefaultDrawer extends StatelessWidget {
 
 class DefaultEndDrawer extends StatelessWidget {
   final AuthBloc authBloc;
-  DefaultEndDrawer()
-      : authBloc = Bootstrap.instance.authBloc;
+  DefaultEndDrawer() : authBloc = Bootstrap.instance.authBloc;
 
   @override
   Widget build(BuildContext context) {
