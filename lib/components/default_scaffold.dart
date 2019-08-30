@@ -21,12 +21,12 @@ class DefaultDrawer extends StatelessWidget {
     // rotas["/upload"] = Rota("Upload de arquivos", Icons.file_upload);
     rotas["/questionario/home"] = Rota("Questionários", Icons.assignment);
     //rotas["/aplicacao/home"] = Rota("Aplicar Questionário", Icons.directions_walk);
-    rotas["/resposta/home"] = Rota("Resposta", Icons.playlist_add_check);
-    rotas["/sintese/home"] = Rota("Síntese", Icons.equalizer);
-    rotas["/produto/home"] = Rota("Produto", Icons.chrome_reader_mode);
+    // rotas["/resposta/home"] = Rota("Resposta", Icons.playlist_add_check);
+    // rotas["/sintese/home"] = Rota("Síntese", Icons.equalizer);
+    // rotas["/produto/home"] = Rota("Produto", Icons.chrome_reader_mode);
     //rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
-    rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
-    rotas["/controle/home"] = Rota("Controle", Icons.control_point);
+    // rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
+    // rotas["/controle/home"] = Rota("Controle", Icons.control_point);
   }
   @override
   Widget build(BuildContext context) {
@@ -189,30 +189,30 @@ class DefaultEndDrawer extends StatelessWidget {
               },
               leading: Icon(Icons.settings),
             ),
-            Divider(
-              color: Colors.black45,
-            ),
-            ListTile(
-              title: Text('Perfil'),
-              onTap: () {
-                //noticias perfil
-                Navigator.pop(context);
-                Navigator.pushNamed(context, "/perfil");
-              },
-              leading: Icon(Icons.person),
-            ),
-            Divider(
-              color: Colors.black45,
-            ),
-            ListTile(
-              title: Text('Noticias lidas'),
-              onTap: () {
-                //noticias arquivadas
-                Navigator.pop(context);
-                Navigator.pushNamed(context, "/noticias/noticias_visualizadas");
-              },
-              leading: Icon(Icons.event_available),
-            ),
+            // Divider(
+            //   color: Colors.black45,
+            // ),
+            // ListTile(
+            //   title: Text('Perfil'),
+            //   onTap: () {
+            //     //noticias perfil
+            //     Navigator.pop(context);
+            //     Navigator.pushNamed(context, "/perfil");
+            //   },
+            //   leading: Icon(Icons.person),
+            // ),
+            // Divider(
+            //   color: Colors.black45,
+            // ),
+            // ListTile(
+            //   title: Text('Noticias lidas'),
+            //   onTap: () {
+            //     //noticias arquivadas
+            //     Navigator.pop(context);
+            //     Navigator.pushNamed(context, "/noticias/noticias_visualizadas");
+            //   },
+            //   leading: Icon(Icons.event_available),
+            // ),
             Divider(
               color: Colors.black45,
             ),
