@@ -37,7 +37,7 @@
 //   //Firestore
 //   final fw.Firestore _firestore;
 //   // Authenticacação
-//   // final _authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+//   // final _authBloc = Bootstrap.instance.authBloc;
 //   final _authBloc;
 //   //Eventos
 //   final _eventController = BehaviorSubject<PageEvent>();

@@ -2,14 +2,7 @@ import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/bootstrap.dart';
 // import 'package:pmsbweb/components/eixo.dart';
 import 'package:pmsbweb/pages/pages.dart';
-import 'package:pmsbweb/pages/pergunta/pergunta_escolha_crud_page.dart';
-import 'package:pmsbweb/pages/pergunta/pergunta_escolha_list_page.dart';
-import 'package:pmsbweb/pages/pergunta/pergunta_preview_page.dart';
-import 'package:pmsbweb/pages/pergunta/pergunta_requisito_escolha_marcar_page.dart';
-import 'package:pmsbweb/pages/pergunta/pergunta_requisito_page.dart';
-import 'package:pmsbweb/state/auth_bloc.dart';
 import 'package:firebase/firebase.dart';
-import 'package:pmsbweb/api/api.dart';
 
 
 void main() {
@@ -27,7 +20,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+    final authBloc = Bootstrap.instance.authBloc;
     return 
     // Provider.value(
     //   value: authBloc,

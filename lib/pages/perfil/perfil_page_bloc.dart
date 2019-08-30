@@ -23,7 +23,7 @@ class PerfilPageBloc {
   //Database
   final fsw.Firestore _firestore;
   //Autenticacao
-  final _authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+  final _authBloc = Bootstrap.instance.authBloc;
 
   //Eventos
   final _perfilPageEventController = BehaviorSubject<PerfilPageEvent>();

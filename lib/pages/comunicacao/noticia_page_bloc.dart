@@ -34,7 +34,7 @@ class NoticiaPageBloc {
   final fsw.Firestore firestore;
 
   // Authenticacação
-  final _authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+  final _authBloc = Bootstrap.instance.authBloc;
 
   //Evento
   final _noticiaPageEventController = BehaviorSubject<NoticiaPageEvent>();

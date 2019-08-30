@@ -41,6 +41,13 @@ export 'package:pmsbweb/pages/pergunta/selecionar_requisito_pergunta_page.dart';
 export 'package:pmsbweb/pages/pergunta/criar_ordenar_escolha_page.dart';
 export 'package:pmsbweb/pages/pergunta/editar_apagar_escolha_page.dart';
 
+
+export 'package:pmsbweb/pages/pergunta/pergunta_escolha_crud_page.dart';
+export 'package:pmsbweb/pages/pergunta/pergunta_escolha_list_page.dart';
+export 'package:pmsbweb/pages/pergunta/pergunta_preview_page.dart';
+export 'package:pmsbweb/pages/pergunta/pergunta_requisito_escolha_marcar_page.dart';
+export 'package:pmsbweb/pages/pergunta/pergunta_requisito_page.dart';
+
 //questionario
 export 'package:pmsbweb/pages/questionario/questionario_home_page.dart';
 export 'package:pmsbweb/pages/questionario/questionario_form_page.dart';
@@ -69,6 +76,3 @@ export 'package:pmsbweb/pages/administracao/administracao_perfil_page.dart';
 
 //controle
 export 'package:pmsbweb/pages/controle/controle_home_page.dart';
-
-
-

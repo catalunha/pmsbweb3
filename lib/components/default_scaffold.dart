@@ -1,11 +1,7 @@
 import 'package:flutter_web/material.dart';
-import 'package:pmsbweb/api/auth_api_mobile.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/models/usuario_model.dart';
 import 'package:pmsbweb/state/auth_bloc.dart';
-import 'package:pmsbweb/state/services.dart';
-
-var db = DatabaseService();
 
 class Rota {
   final String nome;
@@ -34,9 +30,7 @@ class DefaultDrawer extends StatelessWidget {
     rotas["/controle/home"] = Rota("Controle", Icons.control_point);
   }
   @override
-  Widget build(BuildContext context) {
-    // var authBloc = Provider.of<AuthBloc>(context);
-    print("k >> teste");
+  Widget build(BuildContext context) {    
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -179,7 +173,7 @@ class DefaultDrawer extends StatelessWidget {
 class DefaultEndDrawer extends StatelessWidget {
   final AuthBloc authBloc;
   DefaultEndDrawer()
-      : authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+      : authBloc = Bootstrap.instance.authBloc;
 
   @override
   Widget build(BuildContext context) {

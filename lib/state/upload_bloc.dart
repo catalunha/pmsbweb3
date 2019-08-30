@@ -32,7 +32,7 @@
 
 //   // //authBloc
 //   // final AuthBloc _authBloc =
-//   //     AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+//   //     Bootstrap.instance.authBloc;
 
 //   // //Arquivo
 //   // final _fileController = BehaviorSubject<String>();
