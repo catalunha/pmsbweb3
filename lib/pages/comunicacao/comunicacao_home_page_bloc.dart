@@ -25,7 +25,7 @@ class ComunicacaoHomePageState {
 class ComunicacaoHomePageBloc {
   final fsw.Firestore _firestore;
   // Auth
-  final _authBloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+  final _authBloc = Bootstrap.instance.authBloc;
 
   // Eventos da Página
   final _comunicacaoHomePageEventController =

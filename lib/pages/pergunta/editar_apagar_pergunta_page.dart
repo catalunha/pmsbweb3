@@ -1,12 +1,8 @@
 import 'package:flutter_web/material.dart';
-// import 'package:flutter_web_markdown/flutter_web_markdown.dart';
-import 'package:pmsbweb/models/pergunta_model.dart';
 import 'package:pmsbweb/pages/pergunta/editar_apagar_pergunta_page_bloc.dart';
 import 'package:pmsbweb/widgets/selecting_text_editing_controller.dart';
 import 'package:pmsbweb/bootstrap.dart';
-import 'package:pmsbweb/components/eixo.dart';
 import 'package:pmsbweb/models/pergunta_tipo_model.dart';
-// import 'package:queries/collections.dart';
 
 import '../user_files.dart';
 
@@ -170,7 +166,7 @@ class _EditarApagarPerguntaPageState extends State<EditarApagarPerguntaPage> {
               padding: EdgeInsets.all(5.0),
               child: TextField(
                 onChanged: (text) {
-                  print(myController.selection);
+                  // print(myController.selection);
                   bloc.dispatch(
                       UpdateTextoMarkdownPerguntaEditarApagarPerguntaBlocEvent(
                           text));
@@ -188,10 +184,10 @@ class _EditarApagarPerguntaPageState extends State<EditarApagarPerguntaPage> {
   _atualizarMarkdown(texto, posicao) {
     String inicio =
         myController.text.substring(0, myController.selection.baseOffset);
-    print("INICIO:" + inicio);
+    // print("INICIO:" + inicio);
     String fim = myController.text
         .substring(myController.selection.baseOffset, myController.text.length);
-    print("FIM:" + fim);
+    // print("FIM:" + fim);
 
     myController.text = "$inicio$texto$fim";
     myController.setTextAndPosition(myController.text,
@@ -285,12 +281,9 @@ class _EditarApagarPerguntaPageState extends State<EditarApagarPerguntaPage> {
     myController.setTextAndPosition(myController.text);
 
     return
-    //  Provider<EditarApagarPerguntaBloc>.value(
-    //   value: bloc,
-    //   child: 
+
       Scaffold(
         appBar: AppBar(
-          // backgroundColor: Colors.red,
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
@@ -317,7 +310,6 @@ class _EditarApagarPerguntaPageState extends State<EditarApagarPerguntaPage> {
             );
           },
         ),
-      // ),
     );
   }
 }
@@ -329,7 +321,6 @@ class PerguntaTipoInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<EditarApagarPerguntaBloc>(context);
 
     return StreamBuilder<EditarApagarPerguntaBlocState>(
         stream: bloc.state,
@@ -483,7 +474,6 @@ final EditarApagarPerguntaBloc bloc;
 _DeleteDocumentOrFieldState(this.bloc);
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<EditarApagarPerguntaBloc>(context);
     return StreamBuilder<EditarApagarPerguntaBlocState>(
       stream: bloc.state,
       builder: (BuildContext context,
@@ -496,9 +486,6 @@ _DeleteDocumentOrFieldState(this.bloc);
               child: Flexible(
                 child: TextField(
                   controller: _textFieldController,
-                  // onChanged: (text) {
-                  //   bloc.eventSink(DeleteProdutoIDEvent);
-                  // },
                 ),
               ),
             ),

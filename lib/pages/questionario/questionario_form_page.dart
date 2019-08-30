@@ -1,25 +1,38 @@
 import 'package:flutter_web/material.dart';
-import 'package:pmsbweb/components/eixo.dart';
 import 'package:pmsbweb/models/questionario_model.dart';
 import 'package:pmsbweb/pages/questionario/questionario_form_page_bloc.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/state/auth_bloc.dart';
 
-
-class QuestionarioFormPage extends StatelessWidget {
+class QuestionarioFormPage extends StatefulWidget {
   final AuthBloc authBloc;
+  final String questionarioID;
+  QuestionarioFormPage(this.authBloc, this.questionarioID);
+
+  _QuestionarioFormPageState createState() =>
+      _QuestionarioFormPageState(authBloc);
+}
+
+class _QuestionarioFormPageState extends State<QuestionarioFormPage> {
   final QuestionarioFormPageBloc bloc;
 
-  QuestionarioFormPage(this.authBloc)
-      : bloc = QuestionarioFormPageBloc(Bootstrap.instance.firestore,authBloc);
-
   String _questionarioId;
+
+  _QuestionarioFormPageState(AuthBloc authBloc)
+      : bloc = QuestionarioFormPageBloc(Bootstrap.instance.firestore, authBloc);
+
+
+  @override
+  void initState() {
+    super.initState();
+    bloc.dispatch(UpdateIdQuestionarioFormPageBlocEvent(widget.questionarioID));
+  }
 
   _body(context) {
     return StreamBuilder<QuestionarioModel>(
         stream: bloc.instance,
         builder: (context, snapshot) {
-          if (!snapshot.hasData && _questionarioId != null) {
+          if (!snapshot.hasData && widget.questionarioID != null) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -54,19 +67,7 @@ class QuestionarioFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //manda id do questionario se existir ou null no caso de settings.arguments = null
-    _questionarioId = ModalRoute.of(context).settings.arguments;
-    bloc.dispatch(UpdateIdQuestionarioFormPageBlocEvent(_questionarioId));
-
-    //manda o id do usuario atual
-    // final authBloc = Provider.of<AuthBloc>(context);
-
-
-    return
-        //  Provider<QuestionarioFormPageBloc>.value(
-        //   value: bloc,
-        //   child:
-        Scaffold(
+    return Scaffold(
       appBar: AppBar(
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
@@ -83,14 +84,15 @@ class QuestionarioFormPage extends StatelessWidget {
         },
       ),
       body: _body(context),
-      // ),
     );
   }
 }
 
 class NomeFormItem extends StatefulWidget {
   final QuestionarioFormPageBloc bloc;
+
   NomeFormItem(this.bloc);
+
   @override
   NomeFormItemState createState() {
     return NomeFormItemState(bloc);
@@ -100,10 +102,11 @@ class NomeFormItem extends StatefulWidget {
 class NomeFormItemState extends State<NomeFormItem> {
   final _textFieldController = TextEditingController();
   final QuestionarioFormPageBloc bloc;
+
   NomeFormItemState(this.bloc);
+
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<QuestionarioFormPageBloc>(context);
     return StreamBuilder<QuestionarioModel>(
       stream: bloc.instance,
       builder: (context, snapshot) {
@@ -126,7 +129,9 @@ class NomeFormItemState extends State<NomeFormItem> {
 
 class _DeleteDocumentOrField extends StatefulWidget {
   final QuestionarioFormPageBloc bloc;
+
   _DeleteDocumentOrField(this.bloc);
+
   @override
   _DeleteDocumentOrFieldState createState() {
     return _DeleteDocumentOrFieldState(bloc);
@@ -136,10 +141,11 @@ class _DeleteDocumentOrField extends StatefulWidget {
 class _DeleteDocumentOrFieldState extends State<_DeleteDocumentOrField> {
   final _textFieldController = TextEditingController();
   final QuestionarioFormPageBloc bloc;
+
   _DeleteDocumentOrFieldState(this.bloc);
+
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<QuestionarioFormPageBloc>(context);
     return StreamBuilder<QuestionarioModel>(
       stream: bloc.instance,
       builder:
@@ -152,9 +158,6 @@ class _DeleteDocumentOrFieldState extends State<_DeleteDocumentOrField> {
               child: Flexible(
                 child: TextField(
                   controller: _textFieldController,
-                  // onChanged: (text) {
-                  //   bloc.eventSink(DeleteProdutoIDEvent);
-                  // },
                 ),
               ),
             ),

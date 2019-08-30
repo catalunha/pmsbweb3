@@ -23,36 +23,13 @@ class Eixo {
   }
 }
 
-class UsuarioCriou {
+class UsuarioQuestionario {
   String id;
   String nome;
 
-  UsuarioCriou({this.id, this.nome});
+  UsuarioQuestionario({this.id, this.nome});
 
-  UsuarioCriou.fromMap(Map<dynamic, dynamic> map) {
-    id = map['id'];
-    nome = map['nome'];
-  }
-
-  Map<String, dynamic> toMap() {
-    final map = Map<String, dynamic>();
-    if (id != null) {
-      map["id"] = id;
-    }
-    if (nome != null) {
-      map["nome"] = nome;
-    }
-    return map;
-  }
-}
-
-class UsuarioEditou {
-  String id;
-  String nome;
-
-  UsuarioEditou({this.id, this.nome});
-
-  UsuarioEditou.fromMap(Map<dynamic, dynamic> map) {
+  UsuarioQuestionario.fromMap(Map<dynamic, dynamic> map) {
     id = map['id'];
     nome = map['nome'];
   }
@@ -78,15 +55,17 @@ class QuestionarioModel extends FirestoreModel {
 
   dynamic modificado;
 
-  UsuarioCriou criou;
+  UsuarioQuestionario criou;
 
-  UsuarioEditou editou;
+  UsuarioQuestionario editou;
 
   Eixo eixo;
 
   bool editando;
 
   int ultimaOrdem;
+
+  int ordem;
 
   QuestionarioModel({
     String id,
@@ -97,6 +76,7 @@ class QuestionarioModel extends FirestoreModel {
     this.editou,
     this.eixo,
     this.editando,
+    this.ordem,
     this.ultimaOrdem,
   }) : super(id);
 
@@ -106,21 +86,24 @@ class QuestionarioModel extends FirestoreModel {
     criado = map["criado"];
     modificado = map["modificado"];
     editando = map["editando"];
+    ordem = map["ordem"];
     ultimaOrdem = map["ultimaOrdem"];
 
     if (map["criou"] != null) {
-      criou = UsuarioCriou.fromMap(map["criou"]);
-    }else{
-      criou = UsuarioCriou();
+      criou = UsuarioQuestionario.fromMap(map["criou"]);
+    } else {
+      criou = UsuarioQuestionario();
     }
+
     if (map["editou"] != null) {
-      editou = UsuarioEditou.fromMap(map["editou"]);
-    }else{
-      editou = UsuarioEditou();
+      editou = UsuarioQuestionario.fromMap(map["editou"]);
+    } else {
+      editou = UsuarioQuestionario();
     }
+
     if (map["eixo"] != null) {
       eixo = Eixo.fromMap(map["eixo"]);
-    }else{
+    } else {
       eixo = Eixo();
     }
     return this;
@@ -136,7 +119,118 @@ class QuestionarioModel extends FirestoreModel {
     if (editou != null) data['editou'] = editou.toMap();
     if (eixo != null) data['eixo'] = eixo.toMap();
     if (editando != null) data['editando'] = editando;
+    if (ordem != null) data['ordem'] = ordem;
     if (ultimaOrdem != null) data['ultimaOrdem'] = ultimaOrdem;
     return data;
+  }
+}
+
+//  "QuestionarioAplicado": {
+//    "nome": "nome-valor",
+//    "referencia": "Local ou Pessoa ou Momento da aplicação.",
+//    "eixoID": {
+//      "id": "EixoID",
+//      "nome": "Eixo_nome"
+//    },
+//    "setorCensitarioID": {
+//      "id": "SetorCensitarioID",
+//      "nome": "SetorCensitario_nome"
+//    },
+//    "usuarioIDEditor": {
+//      "id": "UsuarioID",
+//      "nome": "Usuario_nome"
+//    },
+//    "modificado": "data-valor",
+//    "usuarioIDAplicador": {
+//      "id": "UsuarioID",
+//      "nome": "Usuario_nome"
+//    },
+//    "aplicado": "data-valor"
+//  }
+
+class QuestionarioAplicadoModel extends QuestionarioModel {
+  static String collection = "QuestionarioAplicado";
+  String referencia;
+  dynamic aplicado;
+  UsuarioQuestionario aplicador;
+  SetorCensitario setorCensitarioID;
+
+  QuestionarioAplicadoModel({
+    String id,
+    this.referencia,
+    this.aplicado,
+    this.aplicador,
+    this.setorCensitarioID,
+    String nome,
+    dynamic criado,
+    dynamic modificado,
+    UsuarioQuestionario criou,
+    UsuarioQuestionario editou,
+    Eixo eixo,
+    bool editando,
+    int ultimaOrdem,
+  }) : super(
+          id: id,
+          nome: nome,
+          criado: criado,
+          modificado: modificado,
+          criou: criou,
+          editou: editou,
+          eixo: eixo,
+          editando: editando,
+          ultimaOrdem: ultimaOrdem,
+        );
+
+  @override
+  QuestionarioAplicadoModel fromMap(Map<String, dynamic> map) {
+    referencia = map["referencia"];
+
+    aplicado = map["aplicado"];
+
+    if (map["aplicador"] != null) {
+      aplicador = UsuarioQuestionario.fromMap(map["aplicador"]);
+    } else {
+      aplicador = UsuarioQuestionario();
+    }
+
+    if (map["setorCensitarioID"] != null) {
+      setorCensitarioID = SetorCensitario.fromMap(map["setorCensitarioID"]);
+    } else {
+      setorCensitarioID = SetorCensitario();
+    }
+    return super.fromMap(map);
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final map = super.toMap();
+    if (aplicado != null) map["aplicado"] = aplicado;
+    if (referencia != null) map["referencia"] = referencia;
+    if (aplicador != null) {
+      map["aplicador"] = aplicador.toMap();
+    }
+    if (setorCensitarioID != null) {
+      map["setorCensitarioID"] = setorCensitarioID.toMap();
+    }
+    return map;
+  }
+}
+
+class SetorCensitario {
+  String id;
+  String nome;
+
+  SetorCensitario({this.id, this.nome});
+
+  SetorCensitario.fromMap(Map<dynamic, dynamic> map) {
+    id = map["id"];
+    nome = map["nome"];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "nome": nome,
+    };
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_web/material.dart';
-// import 'package:flutter_web_markdown/flutter_web_markdown.dart';
+//import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/models/pergunta_model.dart';
 import 'package:pmsbweb/pages/pergunta/pergunta_preview_bloc.dart';
@@ -73,8 +73,7 @@ class PerguntaPreviewPage extends StatelessWidget {
               }
             });
           }
-          //TODO:inserir a exibicao de markdown correta 
-          return Container();//Markdown(data: texto.toString());
+          return Text(texto.toString());
         });
   }
 }

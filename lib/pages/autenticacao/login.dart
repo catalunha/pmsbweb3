@@ -9,7 +9,7 @@ import 'package:pmsbweb/state/auth_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   final AuthBloc authBloc =
-      AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+      Bootstrap.instance.authBloc;
   LoginPage();
 
   @override

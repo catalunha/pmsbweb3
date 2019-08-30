@@ -66,8 +66,10 @@ class PerguntaRequisitoBloc {
   PerguntaRequisitoBloc(this._firestore) {
     eventStream.listen(_mapEventToState);
   }
-  void dispose() {
+  void dispose() async {
+    await _stateController.drain();
     _stateController.close();
+    await _eventController.drain();
     _eventController.close();
   }
 
@@ -104,8 +106,8 @@ class PerguntaRequisitoBloc {
           final tipoEnum = PerguntaTipoModel.ENUM[pergunta.tipo.id];
           final contains = _state.requisitosPergunta.containsKey(pergunta.id);
           _state.requisitosPerguntaList[pergunta.id] = {
-            "questionario": '${pergunta.questionario.nome}',
-            "pergunta": '${pergunta.titulo}',
+            "questionario": 'Q: ${pergunta.questionario.nome}',
+            "pergunta": 'P: ${pergunta.titulo}',
             "requisito": contains
                 ? _state.requisitosPergunta[pergunta.id]
                 : Requisito(
@@ -192,7 +194,7 @@ class PerguntaRequisitoBloc {
 
     if (!_stateController.isClosed) _stateController.add(_state);
     // print('>>> _state.toMap() <<< ${_state.toMap()}');
-    print(
-        '>>> PerguntaRequisitoBloc event.runtimeType <<< ${event.runtimeType}');
+
+    print('event.runtimeType em PerguntaRequisitoBloc  = ${event.runtimeType}');
   }
 }

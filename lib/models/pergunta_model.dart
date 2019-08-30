@@ -1,8 +1,191 @@
 import 'package:pmsbweb/models/base_model.dart';
 import 'package:pmsbweb/models/propriedade_for_model.dart';
+import 'package:pmsbweb/models/pergunta_tipo_model.dart';
+
+class PerguntaAplicadaArquivo {
+  final bool key = true;
+  String nome;
+  String uploadID;
+  String url;
+  String localPath;
+
+  PerguntaAplicadaArquivo({this.uploadID, this.url, this.localPath, this.nome});
+
+  PerguntaAplicadaArquivo.fromMap(Map<dynamic, dynamic> map) {
+    nome = map["nome"];
+    uploadID = map["uploadID"];
+    url = map["url"];
+    localPath = map["localPath"];
+  }
+
+  Map<dynamic, dynamic> toMap() {
+    return {
+      "nome": nome,
+      "key": key,
+      "url": url,
+      "localPath": localPath,
+      "uploadID": uploadID,
+    };
+  }
+}
 
 class PerguntaAplicadaModel extends PerguntaModel {
   static final String collection = "PerguntaAplicada";
+
+  PerguntaAplicadaModel({
+    String id,
+    bool temPendencias: true,
+    bool foiRespondida: false,
+    this.observacao,
+    this.numero,
+    this.texto,
+    Map<String, PerguntaAplicadaArquivo> arquivo,
+    List<Coordenada> coordenada,
+  })  : _arquivo = arquivo,
+        _coordenada = coordenada,
+        _temPendencias = temPendencias,
+        _foiRespondida = foiRespondida,
+        super(id: id);
+
+  bool _temPendencias;
+
+  /// [observacao] é um campo disponivel para informações adicionais durante
+  /// a aplicação da pergunta
+  String observacao;
+
+  ///Atributos que armazenam as respostos da aplicação das perguntas
+
+  ///No caso de pergunta do tipo Texto a resposta é armazenada no atributo
+  ///[texto]
+  String texto;
+
+  ///No caso de pergunta do tipo Numero a resposta é armazenada no atributo
+  ///[numero]
+  num numero;
+
+  ///No caso de pergunta do tipo Arquivo ou Imagem a resposta é armazenada no atributo
+  ///[arquivo]
+  Map<String, PerguntaAplicadaArquivo> _arquivo;
+
+  Map<String, PerguntaAplicadaArquivo> get arquivo {
+    if (_arquivo == null) _arquivo = Map<String, PerguntaAplicadaArquivo>();
+    return _arquivo;
+  }
+
+  set arquivo(Map<String, PerguntaAplicadaArquivo> arquivos) {
+    _arquivo = arquivos;
+  }
+
+  ///No caso de pergunta do tipo Coordenada a resposta é armazenada no atributo
+  ///[coordenada]
+  List<Coordenada> _coordenada;
+
+  set coordenada(List<Coordenada> coordenada) => _coordenada = coordenada;
+
+  List<Coordenada> get coordenada {
+    if (_coordenada == null) _coordenada = List<Coordenada>();
+    return _coordenada;
+  }
+
+  set temPendencias(bool p) {
+    _temPendencias = p != null ? p : true;
+  }
+
+  bool get temPendencias => _temPendencias != null ? _temPendencias : false;
+
+  bool _foiRespondida;
+
+  set foiRespondida(bool f) {
+    _foiRespondida = f != null ? f : false;
+  }
+
+  bool get temRespostaValida {
+    final tipoEnum = PerguntaTipoModel.ENUM[tipo.id];
+    switch (tipoEnum) {
+      case PerguntaTipoEnum.Texto:
+        return texto != null && texto.isNotEmpty;
+      case PerguntaTipoEnum.Imagem:
+        return arquivo != null && arquivo.length > 0;
+      case PerguntaTipoEnum.Arquivo:
+        return arquivo != null && arquivo.length > 0;
+      case PerguntaTipoEnum.Numero:
+        return numero != null;
+      case PerguntaTipoEnum.Coordenada:
+        return coordenada != null && coordenada.length > 0;
+      case PerguntaTipoEnum.EscolhaUnica:
+      case PerguntaTipoEnum.EscolhaMultipla:
+        for (var escolha in escolhas.values) {
+          if (escolha.marcada) return true;
+        }
+        return false;
+    }
+  }
+
+  bool get foiRespondida => _foiRespondida != null ? _foiRespondida : false;
+
+  bool get foiPulada {
+    if (foiRespondida) return true;
+    return temRespostaValida;
+  }
+
+  bool get temRequisitos {
+    return requisitos.length > 0;
+  }
+
+  bool get referenciasRequitosDefinidas {
+    if (!temRequisitos) return false;
+    for (var requisito in requisitos.values) {
+      if (requisito.perguntaID == null) return false;
+    }
+    return true;
+  }
+
+  @override
+  PerguntaAplicadaModel fromMap(Map<String, dynamic> map) {
+    temPendencias = map["temPendencias"];
+    foiRespondida = map["foiRespondida"];
+    observacao = map['observacao'];
+    texto = map["texto"];
+    numero = map["numero"];
+
+    if (map["arquivo"] is Map) {
+      arquivo = Map<String, PerguntaAplicadaArquivo>();
+      for (var item in map["arquivo"].entries) {
+        arquivo[item.key] = PerguntaAplicadaArquivo.fromMap(item.value);
+      }
+    }
+    if (map["coordenada"] is List) {
+      coordenada = List<Coordenada>();
+      map["coordenada"].forEach((e) {
+        coordenada.add(Coordenada.fromMap(e));
+      });
+    }
+
+    return super.fromMap(map);
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final map = super.toMap();
+    map["temPendencias"] = temPendencias;
+    map["foiRespondida"] = foiRespondida;
+    map["observacao"] = observacao;
+    if (texto != null) map["texto"] = texto;
+    if (numero != null) map["numero"] = numero;
+    if (arquivo != null && arquivo is Map){
+      map["arquivo"] = Map<String, dynamic>();
+      for (var item in arquivo.entries){
+        map["arquivo"][item.value.uploadID] = item.value.toMap();
+      }
+    }
+    if (coordenada != null) {
+      map["coordenada"] = List<Map<String, dynamic>>();
+      coordenada.forEach((e) {
+        map["coordenada"].add(e.toMap());
+      });
+    }
+    return map;
+  }
 }
 
 /// Classe que representa um modelo da coleção Pergunta
@@ -36,31 +219,9 @@ class PerguntaModel extends FirestoreModel {
 
   String textoMarkdown;
 
-  /// [observacao] é um campo disponivel para informações adicionais durante
-  /// a aplicação da pergunta
-  String observacao;
-
   dynamic dataCriacao;
 
   dynamic dataEdicao;
-
-  ///Atributos que armazenam as respostos da aplicação das perguntas
-
-  ///No caso de pergunta do tipo Texto a resposta é armazenada no atributo
-  ///[texto]
-  String texto;
-
-  ///No caso de pergunta do tipo Numero a resposta é armazenada no atributo
-  ///[numero]
-  num numero;
-
-  ///No caso de pergunta do tipo Arquivo ou Imagem a resposta é armazenada no atributo
-  ///[arquivo]
-  List<String> arquivo;
-
-  ///No caso de pergunta do tipo Coordenada a resposta é armazenada no atributo
-  ///[coordenada]
-  List<Coordenada> coordenada;
 
   PerguntaModel({
     String id,
@@ -75,13 +236,7 @@ class PerguntaModel extends FirestoreModel {
     this.textoMarkdown,
     this.dataCriacao,
     this.dataEdicao,
-    this.observacao,
-    this.texto,
-          this.eixo,
-
-    this.arquivo,
-    this.coordenada,
-    this.numero,
+    this.eixo,
   }) : super(id);
 
   @override
@@ -107,8 +262,6 @@ class PerguntaModel extends FirestoreModel {
 
     textoMarkdown = map['textoMarkdown'];
 
-    observacao = map['observacao'];
-
     dataCriacao = map['dataCriacao'];
 
     dataEdicao = map['dataEdicao'];
@@ -123,18 +276,6 @@ class PerguntaModel extends FirestoreModel {
       });
     }
 
-    texto = map["texto"];
-
-    numero = map["numero"];
-
-    arquivo = map["arquivo"];
-
-    if (map["coordenada"] is List) {
-      coordenada = List<Coordenada>();
-      map["coordenada"].forEach((e) {
-        coordenada.add(Coordenada.fromMap(e));
-      });
-    }
     if (map.containsKey('eixo')) {
       eixo = map['eixo'] != null ? new EixoID.fromMap(map['eixo']) : null;
     }
@@ -166,6 +307,7 @@ class PerguntaModel extends FirestoreModel {
     if (referencia != null) map["referencia"] = referencia;
 
     if (ordem != null) map["ordem"] = ordem;
+
     if (ultimaOrdemEscolha != null)
       map["ultimaOrdemEscolha"] = ultimaOrdemEscolha;
 
@@ -177,19 +319,6 @@ class PerguntaModel extends FirestoreModel {
 
     if (dataEdicao != null) map["dataEdicao"] = dataEdicao;
 
-    //respostas
-    if (texto != null) map["texto"] = texto;
-
-    if (numero != null) map["numero"] = numero;
-
-    if (arquivo != null) map["arquivo"] = arquivo;
-
-    if (coordenada != null) {
-      map["coordenada"] = List<Map<String, dynamic>>();
-      coordenada.forEach((e) {
-        map["coordenada"].add(e.toMap());
-      });
-    }
     if (this.eixo != null) {
       map['eixo'] = this.eixo.toMap();
     }
@@ -205,17 +334,22 @@ class Questionario {
   /// Nome do Questionario para que não seja necessario buscar em outra coleção
   String nome;
 
-  Questionario(this.id, this.nome);
+  String referencia;
+
+  /// Referencia do questionarioAplicado
+  Questionario(this.id, this.nome, {this.referencia});
 
   Questionario.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"];
     nome = map["nome"];
+    referencia = map["referencia"];
   }
 
   Map<dynamic, dynamic> toMap() {
     final map = Map<dynamic, dynamic>();
     if (id != null) map["id"] = id;
     if (nome != null) map["nome"] = nome;
+    if (referencia != null) map["referencia"] = referencia;
     return map;
   }
 }
@@ -240,20 +374,26 @@ class PerguntaTipo {
 }
 
 class Coordenada {
-  Coordenada({this.latitude, this.longitude});
+  Coordenada({this.latitude, this.longitude, this.accuracy, this.altitude});
 
-  num latitude;
-  num longitude;
+  double latitude;
+  double longitude;
+  double accuracy;
+  double altitude;
 
   Coordenada.fromMap(Map<dynamic, dynamic> map) {
     latitude = map["latitude"];
     longitude = map["longitude"];
+    accuracy = map["accuracy"];
+    altitude = map["altitude"];
   }
 
   Map<String, dynamic> toMap() {
     return {
       if (latitude != null) "latitude": latitude,
       if (longitude != null) "longitude": longitude,
+      if (accuracy != null) "accuracy": accuracy,
+      if (altitude != null) "altitude": altitude,
     };
   }
 }
@@ -313,6 +453,7 @@ class EscolhaRequisito {
   String id;
   bool marcada;
   String label;
+
   EscolhaRequisito({this.id, this.marcada, this.label});
 
   EscolhaRequisito.fromMap(Map<dynamic, dynamic> map) {

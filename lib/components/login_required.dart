@@ -1,4 +1,3 @@
-import 'package:pmsbweb/api/auth_api_mobile.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/state/auth_bloc.dart';
 import 'package:flutter_web/material.dart';
@@ -17,7 +16,7 @@ class LoginRequired extends StatelessWidget {
     this.loginPage,
     this.splashPage,
     this.child,
-  }) : bloc = AuthBloc(AuthApiMobile(), Bootstrap.instance.firestore);
+  }) : bloc = Bootstrap.instance.authBloc;
 
   @override
   Widget build(BuildContext context) {
