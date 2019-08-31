@@ -99,7 +99,13 @@ class DefaultDrawer extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
-                                      child: Text("${snap.data.eixoIDAtual.nome}"),
+                                      child:
+                                          Text("${snap.data.eixoIDAtual.nome}"),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(
+                                          "${snap.data.setorCensitarioID.nome}"),
                                     ),
                                   ],
                                 ),
