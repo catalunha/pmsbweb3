@@ -151,13 +151,16 @@ class ConfiguracaoPageBloc {
           .pipe(_setorCensitarioModelListController);
     }
     if (event is SaveEvent) {
-      if (_state.fotoUploadID != null && _state.fotoUrl == null) {
-        final docRef = _firestore
-            .collection(UploadModel.collection)
-            .document(_state.fotoUploadID);
-        await docRef.delete();
-        _state.fotoUploadID = null;
-      }
+      final Map<String, dynamic> usuarioModel = Map<String, dynamic>();
+
+      // if (_state.fotoUploadID != null && _state.fotoUrl == null) {
+      //   final docRef = _firestore
+      //       .collection(UploadModel.collection)
+      //       .document(_state.fotoUploadID);
+      //   await docRef.delete();
+      //   _state.fotoUploadID = null;
+      // }
+      UploadID foto;
       if (_state.fotoLocalPath != null) {
         //+++ Cria doc em UpLoadCollection
         final upLoadModel = UploadModel(
@@ -175,13 +178,10 @@ class ConfiguracaoPageBloc {
         _state.fotoUploadID = docRef.documentID;
 
         //--- Cria doc em UpLoadCollection
+        foto = UploadID(
+            uploadID: _state.fotoUploadID, localPath: _state.fotoLocalPath);
+        usuarioModel['foto'] = foto.toMapFirestore();
       }
-      UploadID foto = UploadID(
-          uploadID: _state.fotoUploadID, localPath: _state.fotoLocalPath);
-      // final Map<dynamic, dynamic> foto = new Map<dynamic, dynamic>();
-      // foto['uploadID'] = _state.fotoUploadID;
-      // foto['localPath'] = _state.fotoLocalPath;
-      // foto['url'] = Bootstrap.instance.FieldValue.delete();
 
       SetorCensitarioID setorCensitarioID = SetorCensitarioID(
           id: _state.setorCensitarioIDId, nome: _state.setorCensitarioIDnome);
@@ -190,16 +190,10 @@ class ConfiguracaoPageBloc {
       final docRef2 = _firestore
           .collection(UsuarioModel.collection)
           .document(_state.usuarioID);
-      final Map<String, dynamic> usuarioModel = new Map<String, dynamic>();
-
-      // UsuarioModel usuarioModel = UsuarioModel(
-        usuarioModel['nome']= _state.nome;
-        usuarioModel['celular']= _state.celular;
-        usuarioModel['foto']= foto.toMapFirestore();
-        usuarioModel['setorCensitarioID']= setorCensitarioID.toMap();
-        usuarioModel['eixoIDAtual']= eixoIDAtual.toMap();
-      // );
-
+      usuarioModel['nome'] = _state.nome;
+      usuarioModel['celular'] = _state.celular;
+      usuarioModel['setorCensitarioID'] = setorCensitarioID.toMap();
+      usuarioModel['eixoIDAtual'] = eixoIDAtual.toMap();
       await docRef2.setData(usuarioModel, merge: true);
     }
     if (event is UpdateNomeEvent) {
