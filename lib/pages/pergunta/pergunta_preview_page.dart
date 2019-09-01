@@ -2,6 +2,7 @@ import 'package:flutter_web/material.dart';
 //import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/models/pergunta_model.dart';
+import 'package:pmsbweb/pages/markdown/flutter_markdown.dart';
 import 'package:pmsbweb/pages/pergunta/pergunta_preview_bloc.dart';
 import 'package:queries/collections.dart';
 
@@ -34,7 +35,7 @@ class PerguntaPreviewPage extends StatelessWidget {
           if (!snapshot.hasData) {
             return Text("SEM DADOS");
           }
-          // return Markdown(data: snapshot.data.textoMarkdown);
+          
           StringBuffer texto = new StringBuffer();
           // texto.writeln("## Titulo da pergunta");
           texto.writeln("## ${snapshot.data.perguntaModel.titulo}");
@@ -73,7 +74,8 @@ class PerguntaPreviewPage extends StatelessWidget {
               }
             });
           }
-          return Text(texto.toString());
+          //return Text(texto.toString()); 
+          return MarkdownBody(data: texto.toString());
         });
   }
 }
