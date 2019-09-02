@@ -1,38 +1,55 @@
 import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/components/default_scaffold.dart';
 import 'package:pmsbweb/components/square_image.dart';
-//import 'package:pmsbweb/models/perfis_usuarios_model.dart';
-//import 'administracao_home_page_bloc.dart';
+
+import 'package:pmsbweb/models/usuario_model.dart';
+import 'administracao_home_page_bloc.dart';
+import 'package:pmsbweb/bootstrap.dart';
 
 class AdministracaoHomePage extends StatelessWidget {
+  final bloc = AdministracaoHomePageBloc(Bootstrap.instance.firestore);
+
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
       title: Text("Administração"),
-      backgroundColor: Colors.red,
       body: Container(
-        child: ListView(
-          children: <Widget>[
-            PerfilUsuarioItem(),
-            PerfilUsuarioItem(),
-            PerfilUsuarioItem(),
-            PerfilUsuarioItem()
-          ],
-        ),
+        child: StreamBuilder<List<UsuarioModel>>(
+            stream: bloc.usuarioModelListStream,
+            initialData: [],
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text("Erro. Na leitura de usuarios."),
+                );
+              }
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return ListView(
+                children: snapshot.data
+                    .map((usuario) => ItemListView(usuario))
+                    .toList(),
+              );
+            }),
       ),
     );
   }
 }
 
-class PerfilUsuarioItem extends StatelessWidget {
-  //final PerfilUsuarioModel usuario;
+class ItemListView extends StatelessWidget {
+  final UsuarioModel usuario;
 
-  PerfilUsuarioItem();
+  ItemListView(this.usuario);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, "/administracao/perfil");
+        Navigator.pushNamed(context, "/administracao/perfil",
+            arguments: usuario.id);
       },
       child: Card(
         child: Container(
@@ -41,11 +58,12 @@ class PerfilUsuarioItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                  flex: 3,
-                  child: SquareImage(
-                    image: NetworkImage(
-                        "https://pingendo.github.io/pingendo-bootstrap/assets/user_placeholder.png"),
-                  )),
+                flex: 2,
+                child: _ImagemUnica(
+                  fotoLocalPath: usuario?.foto?.localPath,
+                  fotoUrl: usuario?.foto?.url,
+                ),
+              ),
               Expanded(
                 flex: 5,
                 child: Container(
@@ -53,10 +71,11 @@ class PerfilUsuarioItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Nome: #usuario.nomeProjeto "),
-                      Text("Celular: #usuario.celular"),
-                      Text("Email: #usuario.email}"),
-                      Text("Eixo: #usuario.eixo"),
+                      Text("ID: ${usuario.id.substring(0, 5)}"),
+                      Text("Nome: ${usuario.nome}"),
+                      Text("Celular: ${usuario.celular}"),
+                      Text("Email: ${usuario.email}"),
+                      Text("Eixo: ${usuario.eixoIDAtual.nome}"),
                     ],
                   ),
                 ),
@@ -65,6 +84,49 @@ class PerfilUsuarioItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ImagemUnica extends StatelessWidget {
+  final String fotoUrl;
+  final String fotoLocalPath;
+
+  const _ImagemUnica({this.fotoUrl, this.fotoLocalPath});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget foto;
+    if (fotoUrl == null && fotoLocalPath == null) {
+      foto = Center(child: Text('Sem imagem.'));
+    } else if (fotoUrl != null) {
+      foto = Container(
+          child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Image.network(fotoUrl),
+      ));
+    } else {
+      foto = Container(
+          color: Colors.yellow,
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Image.asset(fotoLocalPath),
+            // child: Icon(Icons.people, size: 75),
+          ));
+    }
+    return Row(
+      children: <Widget>[
+        Spacer(
+          flex: 1,
+        ),
+        Expanded(
+          flex: 8,
+          child: foto,
+        ),
+        Spacer(
+          flex: 1,
+        ),
+      ],
     );
   }
 }

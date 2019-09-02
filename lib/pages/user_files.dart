@@ -1,6 +1,6 @@
 import 'package:flutter_web/material.dart';
-//import 'package:flutter/services.dart';
-//import 'package:file_picker/file_picker.dart';
+import 'package:flutter_web/services.dart';
+// import 'package:file_picker/file_picker.dart';
 
 class UserFilesFirebaseList extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _UserFilesFirebaseListState extends State<UserFilesFirebaseList> {
   String _extension;
   bool _multiPick = true;
   bool _hasValidMime = true;
-  //FileType _pickingType;
+  //TODO:FileType _pickingType;
   TextEditingController _controller = new TextEditingController();
 
   @override
@@ -25,36 +25,34 @@ class _UserFilesFirebaseListState extends State<UserFilesFirebaseList> {
     _controller.addListener(() => _extension = _controller.text);
   }
 
-  void _openUserFilesFirebaseList() async {
-    /*
-    if (_pickingType != FileType.CUSTOM || _hasValidMime) {
-      try {
-        if (_multiPick) {
-          _path = null;
-          _paths = await FilePicker.getMultiFilePath(
-              type: _pickingType, fileExtension: _extension);
-        } else {
-          _paths = null;
-          _path = await FilePicker.getFilePath(
-              type: _pickingType, fileExtension: _extension);
-        }
-      } on PlatformException catch (e) {
-        print("Unsupported operation" + e.toString());
-      }
-      if (!mounted) return;
+  // void _openUserFilesFirebaseList() async {
+  //   if (_pickingType != FileType.CUSTOM || _hasValidMime) {
+  //     try {
+  //       if (_multiPick) {
+  //         _path = null;
+  //         _paths = await FilePicker.getMultiFilePath(
+  //             type: _pickingType, fileExtension: _extension);
+  //       } else {
+  //         _paths = null;
+  //         _path = await FilePicker.getFilePath(
+  //             type: _pickingType, fileExtension: _extension);
+  //       }
+  //     } on PlatformException catch (e) {
+  //       print("Unsupported operation" + e.toString());
+  //     }
+  //     if (!mounted) return;
 
-      setState(() {
-        _fileName = _path != null
-            ? _path.split('/').last
-            : _paths != null ? _paths.keys.toString() : '...';
-      });
-    }
-    */
-  }
+  //     setState(() {
+  //       _fileName = _path != null
+  //           ? _path.split('/').last
+  //           : _paths != null ? _paths.keys.toString() : '...';
+  //     });
+  //   }
+  // }
 
   _itemSelecionado(String name, String path) {
     return ListTile(
-      leading: Checkbox(value:false),
+      leading: Checkbox(value:false,onChanged: null,),
       trailing: IconButton(icon: Icon(Icons.delete),onPressed: (){
         //apagar esse arquivo/imagem da lista do firebase
       },),
@@ -96,7 +94,7 @@ class _UserFilesFirebaseListState extends State<UserFilesFirebaseList> {
     return Column(children: <Widget>[
       IconButton(
         icon: Icon(Icons.attach_file),
-        onPressed: () => _openUserFilesFirebaseList(),
+        //TODO:onPressed: () => _openUserFilesFirebaseList(),
       ),
       _listaSelecionados()
     ]);
@@ -116,7 +114,7 @@ class _UserFilesFirebaseListState extends State<UserFilesFirebaseList> {
             IconButton(
               icon: Icon(Icons.attach_file),
               onPressed: () {
-                _openUserFilesFirebaseList();
+                //TODO:_openUserFilesFirebaseList();
                 // Apos selecionar arquivo já inserir na lista no firebase
               },
             ),
