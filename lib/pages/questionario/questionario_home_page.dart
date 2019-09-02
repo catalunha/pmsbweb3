@@ -101,15 +101,23 @@ class QuestionarioHomePage extends StatelessWidget {
                             );
                           },
                         ),
+                        // IconButton(
+                        //   tooltip: 'Conferir todas as perguntas criadas',
+                        //   icon: Icon(Icons.picture_as_pdf),
+                        //   onPressed: () async {
+                        //     // var mdtext = await GeradorMdService
+                        //     //     .generateMdFromQuestionarioModel(questionario);
+                        //     // GeradorPdfService.generatePdfFromMd(mdtext);
+                        //   },
+                        // ),
                         IconButton(
-                          tooltip: 'Conferir todas as perguntas criadas',
-                          icon: Icon(Icons.picture_as_pdf),
-                          onPressed: () async {
-                            // var mdtext = await GeradorMdService
-                            //     .generateMdFromQuestionarioModel(questionario);
-                            // GeradorPdfService.generatePdfFromMd(mdtext);
-                          },
-                        ),
+                            tooltip: 'Listar perguntas criadas',
+                            icon: Icon(Icons.text_fields),
+                            onPressed: () async {
+                              Navigator.pushNamed(
+                                  context, "/pergunta/pergunta_list_preview",
+                                  arguments: questionario.id);
+                            }),
                         IconButton(
                             icon: Icon(Icons.arrow_downward),
                             onPressed: (ordemLocal) < lengthEscolha

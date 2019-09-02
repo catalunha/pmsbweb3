@@ -365,21 +365,21 @@ class FotoUsuario extends StatelessWidget {
         }
         return Column(
           children: <Widget>[
-            ButtonTheme.bar(
-                child: ButtonBar(children: <Widget>[
-              Text('Atualizar foto de usuario'),
-              IconButton(
-                icon: Icon(Icons.file_download),
-                onPressed: () async {
-                  //TODO:
+            // ButtonTheme.bar(
+            //     child: ButtonBar(children: <Widget>[
+            //   Text('Atualizar foto de usuario'),
+            //   IconButton(
+            //     icon: Icon(Icons.file_download),
+            //     onPressed: () async {
+            //       //TODO:
 
-                  // await _selecionarNovoArquivo().then((arq) {
-                  //   fotoLocalPath = arq;
-                  // });
-                  // bloc.eventSink(UpdateFotoEvent(fotoLocalPath));
-                },
-              ),
-            ])),
+            //       // await _selecionarNovoArquivo().then((arq) {
+            //       //   fotoLocalPath = arq;
+            //       // });
+            //       // bloc.eventSink(UpdateFotoEvent(fotoLocalPath));
+            //     },
+            //   ),
+            // ])),
             ImagemUnica(
                 fotoUrl: snapshot.data?.fotoUrl,
                 fotoLocalPath: snapshot.data?.fotoLocalPath),

@@ -10,9 +10,8 @@ import 'package:pmsbweb/state/auth_bloc.dart';
 class ProdutoHomePage extends StatelessWidget {
   final ProdutoHomePageBloc bloc;
 
-  ProdutoHomePage(AuthBloc authBloc)
-      : bloc = ProdutoHomePageBloc(Bootstrap.instance.firestore, authBloc) {
-    // bloc.eventSink(UpdateUsuarioIDEvent());
+  ProdutoHomePage(AuthBloc authBloc) : bloc = ProdutoHomePageBloc(Bootstrap.instance.firestore, authBloc) {
+    //bloc.eventSink(UpdateUsuarioIDEvent());
   }
   void dispose() {
     bloc.dispose();
@@ -58,7 +57,7 @@ class ProdutoHomePage extends StatelessWidget {
                   : Text('Sem titulo'),
               trailing: IconButton(
                 icon: Icon(Icons.edit),
-                    tooltip: 'Editar titulo e apagar este produto',
+                tooltip: 'Editar titulo e apagar este produto',
                 onPressed: () {
                   //Ir a pagina de Adicionar ou editar Produtos
                   Navigator.pushNamed(context, '/produto/crud',
@@ -174,17 +173,22 @@ class ProdutoHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
-
-        title: Text("Produto"),
-
-      body: _body(context),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(context, '/produto/crud', arguments: null);
-        },
-        // backgroundColor: Colors.blue,
+      title: Text("Produto"),
+      backgroundColor: Colors.red,
+      body:  Center(
+        child: Text(
+          "Em construção.",
+          style: Theme.of(context).textTheme.display1,
+        ),
       ),
+      // body: _body(context),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.add),
+      //   onPressed: () {
+      //     Navigator.pushNamed(context, '/produto/crud', arguments: null);
+      //   },
+      //   // backgroundColor: Colors.blue,
+      // ),
     );
   }
 }

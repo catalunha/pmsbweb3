@@ -16,21 +16,20 @@ class DefaultDrawer extends StatelessWidget {
   DefaultDrawer() : authBloc = Bootstrap.instance.authBloc {
     // Map<String, Rota>
     rotas = Map<String, Rota>();
-    rotas["/desenvolvimento"] = Rota("Desenvolvimento", Icons.build);
-    rotas["/"] = Rota("Home", Icons.home);
-    rotas["/upload"] = Rota("Upload de arquivos", Icons.file_upload);
+    //rotas["/desenvolvimento"] = Rota("Desenvolvimento", Icons.build);
+    //rotas["/"] = Rota("Home", Icons.home);
+    // rotas["/upload"] = Rota("Upload de arquivos", Icons.file_upload);
     rotas["/questionario/home"] = Rota("Questionários", Icons.assignment);
-    rotas["/aplicacao/home"] =
-        Rota("Aplicar Questionário", Icons.directions_walk);
-    rotas["/resposta/home"] = Rota("Resposta", Icons.playlist_add_check);
-    rotas["/sintese/home"] = Rota("Síntese", Icons.equalizer);
-    rotas["/produto/home"] = Rota("Produto", Icons.chrome_reader_mode);
-    rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
-    rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
-    rotas["/controle/home"] = Rota("Controle", Icons.control_point);
+    //rotas["/aplicacao/home"] = Rota("Aplicar Questionário", Icons.directions_walk);
+    // rotas["/resposta/home"] = Rota("Resposta", Icons.playlist_add_check);
+    // rotas["/sintese/home"] = Rota("Síntese", Icons.equalizer);
+    // rotas["/produto/home"] = Rota("Produto", Icons.chrome_reader_mode);
+    //rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
+    // rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
+    // rotas["/controle/home"] = Rota("Controle", Icons.control_point);
   }
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -97,6 +96,16 @@ class DefaultDrawer extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Text("${snap.data.celular}"),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child:
+                                          Text("${snap.data.eixoIDAtual.nome}"),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Text(
+                                          "${snap.data.setorCensitarioID.nome}"),
                                     ),
                                   ],
                                 ),
@@ -172,8 +181,7 @@ class DefaultDrawer extends StatelessWidget {
 
 class DefaultEndDrawer extends StatelessWidget {
   final AuthBloc authBloc;
-  DefaultEndDrawer()
-      : authBloc = Bootstrap.instance.authBloc;
+  DefaultEndDrawer() : authBloc = Bootstrap.instance.authBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -191,30 +199,30 @@ class DefaultEndDrawer extends StatelessWidget {
               },
               leading: Icon(Icons.settings),
             ),
-            Divider(
-              color: Colors.black45,
-            ),
-            ListTile(
-              title: Text('Perfil'),
-              onTap: () {
-                //noticias perfil
-                Navigator.pop(context);
-                Navigator.pushNamed(context, "/perfil");
-              },
-              leading: Icon(Icons.person),
-            ),
-            Divider(
-              color: Colors.black45,
-            ),
-            ListTile(
-              title: Text('Noticias lidas'),
-              onTap: () {
-                //noticias arquivadas
-                Navigator.pop(context);
-                Navigator.pushNamed(context, "/noticias/noticias_visualizadas");
-              },
-              leading: Icon(Icons.event_available),
-            ),
+            // Divider(
+            //   color: Colors.black45,
+            // ),
+            // ListTile(
+            //   title: Text('Perfil'),
+            //   onTap: () {
+            //     //noticias perfil
+            //     Navigator.pop(context);
+            //     Navigator.pushNamed(context, "/perfil");
+            //   },
+            //   leading: Icon(Icons.person),
+            // ),
+            // Divider(
+            //   color: Colors.black45,
+            // ),
+            // ListTile(
+            //   title: Text('Noticias lidas'),
+            //   onTap: () {
+            //     //noticias arquivadas
+            //     Navigator.pop(context);
+            //     Navigator.pushNamed(context, "/noticias/noticias_visualizadas");
+            //   },
+            //   leading: Icon(Icons.event_available),
+            // ),
             Divider(
               color: Colors.black45,
             ),

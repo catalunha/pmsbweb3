@@ -3,6 +3,7 @@ import 'package:pmsbweb/bootstrap.dart';
 // import 'package:pmsbweb/components/eixo.dart';
 import 'package:pmsbweb/pages/pages.dart';
 import 'package:firebase/firebase.dart';
+import 'package:pmsbweb/pages/questionario/pergunta_list_preview_page.dart';
 
 
 void main() {
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         MaterialApp(
           title: 'PMSB',
           //theme: ThemeData.dark(),
+          //initialRoute: "/",
           initialRoute: "/",
           routes: {
             //homePage
@@ -59,7 +61,11 @@ class MyApp extends StatelessWidget {
               authBloc,
               ModalRoute.of(context).settings.arguments,
             ),
-
+        "/pergunta/pergunta_list_preview": (context) {
+          final settings = ModalRoute.of(context).settings;
+          return PerguntaListPreviewPage(questionarioID: settings.arguments);
+        },
+        
             //pergunta
             "/pergunta/home": (context) {
               final settings = ModalRoute.of(context).settings;
@@ -114,15 +120,15 @@ class MyApp extends StatelessWidget {
             },
 
             //aplicacao
-            "/aplicacao/home": (context) => AplicacaoHomePage(),
-            "/aplicacao/momento_aplicacao": (context) => MomentoAplicacaoPage(),
-            "/aplicacao/aplicando_pergunta": (context) =>
-                AplicacaoPerguntaPage(),
-            "/aplicacao/pendencias": (context) => PendenciasPage(),
-            "/aplicacao/visualizar_respostas": (context) =>
-                VisualizarRespostasPage(),
-            "/aplicacao/definir_requisitos": (context) =>
-                DefinirRequisistosPage(),
+            // "/aplicacao/home": (context) => AplicacaoHomePage(),
+            // "/aplicacao/momento_aplicacao": (context) => MomentoAplicacaoPage(),
+            // "/aplicacao/aplicando_pergunta": (context) =>
+            //     AplicacaoPerguntaPage(),
+            // "/aplicacao/pendencias": (context) => PendenciasPage(),
+            // "/aplicacao/visualizar_respostas": (context) =>
+            //     VisualizarRespostasPage(),
+            // "/aplicacao/definir_requisitos": (context) =>
+            //     DefinirRequisistosPage(),
 
             //resposta
             "/resposta/home": (context) => RespostaHomePage(),

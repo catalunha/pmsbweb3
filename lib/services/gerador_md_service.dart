@@ -39,18 +39,20 @@ ${noticia.textoMarkdown}
   static generateMdFromQuestionarioModel(
       QuestionarioModel questionarioModel) async {
     final fsw.Firestore _firestore = Bootstrap.instance.firestore;
-    StringBuffer texto = new StringBuffer();
-    StringBuffer escolhaList = new StringBuffer();
-    StringBuffer requisitoList = new StringBuffer();
+    StringBuffer texto = StringBuffer();
+    StringBuffer escolhaList = StringBuffer();
+    StringBuffer requisitoList = StringBuffer();
     int contador = 1;
+
     texto.writeln("""
+
 # Questionário: ${questionarioModel.nome}
 
-<sub>Questionário id: ${questionarioModel.id}</sub>
+Questionário id: ${questionarioModel.id}
 
 Último editor: ${questionarioModel.editou.nome}
 
-Em: ${questionarioModel.modificado.toDate()}
+Em: ${questionarioModel.modificado}
 
 Lista de perguntas: 
 
@@ -58,6 +60,8 @@ Lista de perguntas:
 ---
 
 """);
+
+print(texto.toString());
     final perguntasRef = _firestore
         .collection(PerguntaModel.collection)
         .where("questionario.id", isEqualTo: questionarioModel.id)
@@ -79,7 +83,7 @@ Lista de perguntas:
         escolhaList.writeln("#### Escolhas");
         pergunta.escolhas?.forEach((k, v) {
           escolhaList.writeln("""
-1. **${v.texto}** <sub>(id: ${k})</sub>
+1. **${v.texto}**
 """);
         });
       } //fim escolhas
@@ -106,7 +110,7 @@ Lista de perguntas:
 
           perguntasReqList.forEach((pergReq) {
             requisitoList.writeln(
-                "- ${pergReq.titulo} <sub>(id: ${pergReq.id} ref: ${pergReq.referencia})</sub>");
+                "- ${pergReq.titulo}");
           });
         }
       } //--- Imprimindo os requisitos
@@ -120,8 +124,7 @@ ${escolhaList}
 
 ${requisitoList}
 
-
-Pergunta tipo: ${pergunta.tipo.nome}. <sub>Pergunta id: ${pergunta.id} ordem: ${pergunta.ordem}</sub>
+Pergunta tipo: ${pergunta.tipo.nome}. Ordem: ${pergunta.ordem}
 
 -----
 
