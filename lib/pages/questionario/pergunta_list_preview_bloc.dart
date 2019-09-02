@@ -29,11 +29,9 @@ class PerguntaListPreviewPageState {
   // Map<String, bool> downs = Map<String, bool>();
   // Map<String, int> indexMap = Map<String, int>();
 
-
   // String questionarioId;
 
   // PerguntaModel perguntaModel;
-
 
   // Map<String, Requisito> requisitos;
   // Map<String, Escolha> escolhas;
@@ -50,15 +48,16 @@ class PerguntaListPreviewBloc {
 
   //Eventos
   final _eventController = BehaviorSubject<PerguntaListPreviewPageEvent>();
-  Stream<PerguntaListPreviewPageEvent> get eventStream => _eventController.stream;
+  Stream<PerguntaListPreviewPageEvent> get eventStream =>
+      _eventController.stream;
   Function get eventSink => _eventController.sink.add;
 
   //Estados
   final PerguntaListPreviewPageState _state = PerguntaListPreviewPageState();
   final _stateController = BehaviorSubject<PerguntaListPreviewPageState>();
-  Stream<PerguntaListPreviewPageState> get stateStream => _stateController.stream;
+  Stream<PerguntaListPreviewPageState> get stateStream =>
+      _stateController.stream;
   Function get stateSink => _stateController.sink.add;
-
 
   // StreamSubscription<List<PerguntaModel>> _perguntaSubscription;
 
@@ -81,9 +80,15 @@ class PerguntaListPreviewBloc {
       await ref.get().then((data) {
         _state.questionarioInstance =
             QuestionarioModel(id: data.documentID).fromMap(data.data);
-      });
+        if (!_stateController.isClosed) _stateController.add(_state);
+            print('bloc>questionarioID: ${event.questionarioId}');
 
-      _state.questionarioPerguntaList2Mkd = await GeradorMdService.generateMdFromQuestionarioModel(_state.questionarioInstance);
+      });
+            print('bloc> _state.questionarioInstance.id: ${_state.questionarioInstance.id}');
+
+      _state.questionarioPerguntaList2Mkd =
+          await GeradorMdService.generateMdFromQuestionarioModel(
+              _state.questionarioInstance);
 
       // final perguntasRef = _firestore
       //     .collection(PerguntaModel.collection)

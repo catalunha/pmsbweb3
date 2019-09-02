@@ -182,10 +182,15 @@ class MarkdownBody extends MarkdownWidget {
   @override
   Widget build(BuildContext context, List<Widget> children) {
     if (children.length == 1) return children.single;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    // return Column(
+    //   crossAxisAlignment: CrossAxisAlignment.stretch,
+    //   children: children,
+    // );
+    return ListView(
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: children,
     );
+
   }
 }
 

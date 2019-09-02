@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/pages/markdown/src/widget.dart';
@@ -12,13 +10,14 @@ class PerguntaListPreviewPage extends StatelessWidget {
   PerguntaListPreviewPage({this.questionarioID})
       : bloc = PerguntaListPreviewBloc(Bootstrap.instance.firestore) {
     bloc.eventSink(UpdateQuestionarioIDEvent(questionarioId: questionarioID));
+    print('questionarioID: ${questionarioID}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Visão geral da pergunta'),
+        title: Text('Perguntas deste questionário'),
       ),
       body: _bodyPreview(),
     );
@@ -35,9 +34,17 @@ class PerguntaListPreviewPage extends StatelessWidget {
           if (!snapshot.hasData) {
             return Text("SEM DADOS");
           }
-print(snapshot.data.questionarioPerguntaList2Mkd);
-            return MarkdownBody(data: snapshot.data.questionarioPerguntaList2Mkd);
-
+          if (snapshot.hasData) {
+            print(
+                'listando perguntas de ${snapshot.data?.questionarioInstance?.nome}');
+            print(snapshot.data.questionarioPerguntaList2Mkd);
+            if (snapshot.data.questionarioPerguntaList2Mkd == null) {
+              return Text("Construindo...");
+            } else {
+              return MarkdownBody(
+                  data: snapshot.data.questionarioPerguntaList2Mkd);
+            }
+          }
         });
   }
 }
