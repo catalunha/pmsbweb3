@@ -212,14 +212,14 @@ class QuestionarioHomePage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: DefaultScaffold(
-        bottom: TabBar(
-          tabs: [
-            Tab(text: "Todos"),
-            Tab(text: "Pastas"),
-          ],
-        ),
+        // bottom: TabBar(
+        //   tabs: [
+        //     Tab(text: "Todos"),
+        //     Tab(text: "Pastas"),
+        //   ],
+        // ),
         title: Text('Questionarios'),
-        body: _body(context),
+        body: _bodyTodos(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {

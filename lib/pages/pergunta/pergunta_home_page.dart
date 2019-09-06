@@ -71,10 +71,14 @@ class PerguntaHomePage extends StatelessWidget {
               child: ListView(
                 children: [
                   ...perguntas
-                      .map((pergunta) => PerguntaItem(
-                          pergunta, ups[pergunta.id], downs[pergunta.id], bloc))
+                      .asMap()
+                      .map((index, pergunta) => MapEntry(
+                          index,
+                          PerguntaItem(pergunta, ups[pergunta.id],
+                              downs[pergunta.id], bloc, index: index,)))
+                      .values
                       .toList(),
-                  Padding(padding: EdgeInsets.all(30)),
+                  Padding(padding: EdgeInsets.all(40)),
                 ],
               ),
             ),
@@ -90,7 +94,7 @@ class PerguntaHomePage extends StatelessWidget {
       appBar: AppBar(
         // backgroundColor: Colors.red,
         centerTitle: true,
-        title: Text("Lista de Perguntas"),
+        title: Text("Lista de perguntas"),
       ),
       body: _body(context),
       floatingActionButton: FloatingActionButton(
@@ -109,11 +113,12 @@ class PerguntaHomePage extends StatelessWidget {
 
 class PerguntaItem extends StatelessWidget {
   final PerguntaModel _pergunta;
+  final int index;
   final bool up;
   final bool down;
   final PerguntaHomePageBloc bloc;
 
-  PerguntaItem(this._pergunta, this.up, this.down, this.bloc)
+  PerguntaItem(this._pergunta, this.up, this.down, this.bloc, {this.index})
       : assert(up != null),
         assert(down != null);
 
@@ -126,7 +131,7 @@ class PerguntaItem extends StatelessWidget {
         children: <Widget>[
           ListTile(
             title: Text(_pergunta.titulo),
-            trailing: Text("${_pergunta.ordem}"),
+            // trailing: Text("${index}"),
             subtitle: Text("Tipo: ${_pergunta.tipo.nome}"),
             // Column(
             //   children: <Widget>[
@@ -138,6 +143,8 @@ class PerguntaItem extends StatelessWidget {
           ),
           ButtonTheme.bar(
             child: ButtonBar(
+                                    alignment: MainAxisAlignment.start,
+
               children: <Widget>[
                 IconButton(
                   tooltip: 'Descer ordem da pergunta',
