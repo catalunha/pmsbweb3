@@ -26,12 +26,8 @@ export 'package:pmsbweb/pages/comunicacao/comunicacao_crud_page.dart';
 export 'package:pmsbweb/pages/comunicacao/noticia_lida_page.dart';
 
 //produto
-export 'package:pmsbweb/pages/produto/produto_arguments.dart';
 export 'package:pmsbweb/pages/produto/produto_home_page.dart';
 export 'package:pmsbweb/pages/produto/produto_crud_page.dart';
-export 'package:pmsbweb/pages/produto/produto_texto_page.dart';
-export 'package:pmsbweb/pages/produto/produto_arquivo_crud_page.dart';
-export 'package:pmsbweb/pages/produto/produto_arquivo_list_page.dart';
 
 //pergunta
 export 'package:pmsbweb/pages/pergunta/pergunta_home_page.dart';

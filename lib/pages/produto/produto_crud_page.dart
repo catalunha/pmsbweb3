@@ -1,3 +1,4 @@
+//import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/bootstrap.dart';
 import 'package:pmsbweb/pages/produto/produto_crud_page_bloc.dart';
@@ -37,46 +38,45 @@ class _ProdutoCRUDPageState extends State<ProdutoCRUDPage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-    //  Provider<ProdutoCRUDPageBloc>.value(
-    //   value: bloc,
-    //   child: 
-      Scaffold(
-        appBar: AppBar(
-            leading: new IconButton(
-              icon: new Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            title: Text((widget.produtoID != null ? "Editar" : "Adicionar") +
-                " Produto")),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.thumb_up),
-          onPressed: () {
-            // salvar e voltar
-            bloc.eventSink(SaveProdutoIDEvent());
-            Navigator.pop(context);
-          },
-        ),
-        body: ListView(
-          children: <Widget>[
-            Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Text(
-                  "Titulo do questionario:",
-                  style: TextStyle(fontSize: 15, color: Colors.blue),
-                )),
-            Padding(
+    return Scaffold(
+      appBar: AppBar(
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text((widget.produtoID != null ? "Editar" : "Adicionar") +
+              " Produto")),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.thumb_up),
+        onPressed: () {
+          // salvar e voltar
+          bloc.eventSink(SaveProdutoIDEvent());
+          Navigator.pop(context);
+        },
+      ),
+      body: ListView(
+        children: <Widget>[
+          Padding(
               padding: EdgeInsets.all(5.0),
-              child: ProdutoTitulo(bloc),
-            ),
-            Divider(),
-            Padding(
-              padding: EdgeInsets.all(5.0),
-              child: _DeleteDocumentOrField(bloc),
-            ),
-          ],
-        ),
-      // ),
+              child: Text(
+                "Titulo:",
+                style: TextStyle(fontSize: 15, color: Colors.blue),
+              )),
+          Padding(
+            padding: EdgeInsets.all(5.0),
+            child: ProdutoTitulo(bloc),
+          ),
+          Padding(
+            padding: EdgeInsets.all(5.0),
+            child: ArquivoPDF(bloc),
+          ),
+          Divider(),
+          Padding(
+            padding: EdgeInsets.all(5.0),
+            child: _DeleteDocumentOrField(bloc),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -92,11 +92,10 @@ class ProdutoTitulo extends StatefulWidget {
 
 class ProdutoTituloState extends State<ProdutoTitulo> {
   final _textFieldController = TextEditingController();
-final ProdutoCRUDPageBloc bloc;
-ProdutoTituloState(this.bloc);
+  final ProdutoCRUDPageBloc bloc;
+  ProdutoTituloState(this.bloc);
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<ProdutoCRUDPageBloc>(context);
     return StreamBuilder<ProdutoCRUDPageState>(
       stream: bloc.stateStream,
       builder:
@@ -131,11 +130,10 @@ class _DeleteDocumentOrField extends StatefulWidget {
 
 class _DeleteDocumentOrFieldState extends State<_DeleteDocumentOrField> {
   final _textFieldController = TextEditingController();
-final ProdutoCRUDPageBloc bloc;
-_DeleteDocumentOrFieldState(this.bloc);
+  final ProdutoCRUDPageBloc bloc;
+  _DeleteDocumentOrFieldState(this.bloc);
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<ProdutoCRUDPageBloc>(context);
     return StreamBuilder<ProdutoCRUDPageState>(
       stream: bloc.stateStream,
       builder:
@@ -148,18 +146,14 @@ _DeleteDocumentOrFieldState(this.bloc);
               child: Flexible(
                 child: TextField(
                   controller: _textFieldController,
-                  // onChanged: (text) {
-                  //   bloc.eventSink(DeleteProdutoIDEvent);
-                  // },
                 ),
               ),
             ),
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
-                //Ir para a pagina visuais do produto
                 if (_textFieldController.text == 'CONCORDO') {
-                bloc.eventSink(DeleteProdutoIDEvent());
+                  bloc.eventSink(DeleteProdutoIDEvent());
                   Navigator.of(context).pop();
                 }
               },
@@ -168,5 +162,73 @@ _DeleteDocumentOrFieldState(this.bloc);
         );
       },
     );
+  }
+}
+
+class ArquivoPDF extends StatelessWidget {
+  final ProdutoCRUDPageBloc bloc;
+  String pdfUrl;
+  String pdfLocalPath;
+
+  ArquivoPDF(this.bloc);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<ProdutoCRUDPageState>(
+      stream: bloc.stateStream,
+      builder:
+          (BuildContext context, AsyncSnapshot<ProdutoCRUDPageState> snapshot) {
+        if (snapshot.hasError) {
+          return Container(
+            child: Center(child: Text('Erro.')),
+          );
+        }
+        pdfLocalPath = snapshot.data?.pdfLocalPath ;
+        pdfUrl = snapshot.data?.pdfUrl;
+        
+        return Column(
+          children: <Widget>[
+            ButtonTheme.bar(
+                child: ButtonBar(children: <Widget>[
+              Text('Atualizar pdf do produto:'),
+              IconButton(
+                icon: Icon(Icons.delete_forever),
+                onPressed: ()  {
+                  bloc.eventSink(UpdateDeletePDFEvent());
+
+                },
+              ),
+                            IconButton(
+                icon: Icon(Icons.file_download),
+                onPressed: () async {
+                  await _selecionarNovoArquivo().then((arq) {
+                    pdfLocalPath = arq;
+                  });
+                  bloc.eventSink(UpdatePDFEvent(pdfLocalPath));
+                  // print('>>> pdfLocalPath <<< ${pdfLocalPath}');
+                },
+              ),
+            ])),
+            pdfLocalPath==null
+            ? Container()
+            : Text('Arquivo local: ${pdfLocalPath}'),
+            pdfUrl==null
+            ? Text('Sem arquivo na núvem.')
+            : Text('Arquivo já esta na núvem !'),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<String> _selecionarNovoArquivo() async {
+    // try {
+    //   var arquivoPath = await FilePicker.getFilePath(type: FileType.ANY);
+    //   if (arquivoPath != null) {
+    //     return arquivoPath;
+    //   }
+    // } catch (e) {
+    //   print("Unsupported operation" + e.toString());
+    // }
   }
 }

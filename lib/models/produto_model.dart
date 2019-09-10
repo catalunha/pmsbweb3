@@ -5,63 +5,68 @@ class ProdutoModel extends FirestoreModel {
   static final String collection = "Produto";
 
   String titulo;
-  String produtoTextoID;
+  GoogleDriveID googleDrive;
   EixoID eixoID;
-  DateTime modificado;
   SetorCensitarioID setorCensitarioID;
+  DateTime modificado;
   UsuarioID usuarioID;
-  Map<String, ArquivoProduto> arquivo;
   UploadID pdf;
 
   ProdutoModel({
     String id,
     this.titulo,
-    this.produtoTextoID,
+    this.googleDrive,
     this.eixoID,
     this.pdf,
     this.setorCensitarioID,
     this.usuarioID,
     this.modificado,
-    this.arquivo,
   }) : super(id);
+
   @override
   ProdutoModel fromMap(Map<String, dynamic> map) {
+
     if (map.containsKey('titulo')) titulo = map['titulo'];
+    
     if (map.containsKey('pdf')) {
-      pdf = map['pdf'] != null ? new UploadID.fromMap(map['pdf']) : null;
+      pdf = map['pdf'] != null ? UploadID.fromMap(map['pdf']) : null;
     }
 
-    if (map.containsKey('produtoTextoID'))
-      produtoTextoID = map['produtoTextoID'];
+    if (map.containsKey('googleDrive')) {
+      googleDrive = map['googleDrive'] != null
+          ? GoogleDriveID.fromMap(map['googleDrive'])
+          : null;
+    }
+    
     if (map.containsKey('eixoID')) {
-      eixoID = map['eixoID'] != null ? new EixoID.fromMap(map['eixoID']) : null;
+      eixoID = map['eixoID'] != null ? EixoID.fromMap(map['eixoID']) : null;
     }
-
     if (map.containsKey('setorCensitarioID')) {
       setorCensitarioID = map['setorCensitarioID'] != null
-          ? new SetorCensitarioID.fromMap(map['setorCensitarioID'])
+          ? SetorCensitarioID.fromMap(map['setorCensitarioID'])
           : null;
     }
+    
     if (map.containsKey('usuarioID')) {
-      usuarioID = map['usuarioID'] != null
-          ? new UsuarioID.fromMap(map['usuarioID'])
-          : null;
+      usuarioID =
+          map['usuarioID'] != null ? UsuarioID.fromMap(map['usuarioID']) : null;
     }
-    if (map.containsKey('modificado')) modificado = map['modificado'].toDate();
-    if (map["arquivo"] is Map) {
-      arquivo = Map<String, ArquivoProduto>();
-      map["arquivo"].forEach((k, v) {
-        arquivo[k] = ArquivoProduto.fromMap(v);
-      });
+    
+    if (map.containsKey('modificado')){
+      modificado = map['modificado'];
     }
+
     return this;
   }
 
   @override
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (produtoTextoID != null) data['produtoTextoID'] = this.produtoTextoID;
     if (titulo != null) data['titulo'] = this.titulo;
+    if (googleDrive != null) data['googleDrive'] = this.googleDrive;
+    if (this.googleDrive != null) {
+      data['googleDrive'] = this.googleDrive.toMap();
+    }
     if (this.eixoID != null) {
       data['eixoID'] = this.eixoID.toMap();
     }
@@ -76,12 +81,12 @@ class ProdutoModel extends FirestoreModel {
       data['usuarioID'] = this.usuarioID.toMap();
     }
     if (modificado != null) data['modificado'] = this.modificado.toUtc();
-    if (arquivo != null) {
-      data["arquivo"] = Map<String, Map<String, dynamic>>();
-      arquivo.forEach((key, value) {
-        if (value != null) data["arquivo"][key] = value.toMap();
-      });
-    }
+    data["id"] = id;
     return data;
+  }
+
+  @override
+  String toString() {
+    return this.toMap().toString();
   }
 }
