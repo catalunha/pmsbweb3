@@ -79,7 +79,7 @@ class _ControleTarefaListPageState extends State<ControleTarefaListPage> {
                   ),
                   IconButton(
                     tooltip: 'Marcar/Atualizar ação',
-                    icon: Icon(Icons.check_box),
+                    icon: Icon(Icons.check),
                     onPressed: () {
                       // Listar paginas de perguntas
                       Navigator.pushNamed(
@@ -211,7 +211,7 @@ class _ControleTarefaListPageState extends State<ControleTarefaListPage> {
                   ),
                   IconButton(
                     tooltip: 'Editar ação',
-                    icon: Icon(Icons.check_box),
+                    icon: Icon(Icons.check),
                     onPressed: () {
                       Navigator.pushNamed(
                         context,
@@ -440,13 +440,13 @@ class _SetorListaModalSelectState extends State<SetorListaModalSelect> {
         // backgroundColor: Colors.blueGrey,
         // actions: <Widget>[
         //   IconButton(
-        //     icon: Icon(Icons.check_box),
+        //     icon: Icon(Icons.check),
         //     onPressed: () {
         //       bloc.eventSink(UpDateAlertarTodosEvent(true));
         //     },
         //   ),
         //   IconButton(
-        //     icon: Icon(Icons.check_box_outline_blank),
+        //     icon: Icon(Icons.check_outline_blank),
         //     onPressed: () {
         //       bloc.eventSink(UpDateAlertarTodosEvent(false));
         //     },

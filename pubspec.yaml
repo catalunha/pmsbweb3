@@ -13,7 +13,7 @@ dependencies:
   # cupertino_icons: ^0.1.2
   rxdart: ^0.22.0
   uuid: 2.0.1
-  firebase: ^5.0.0
+  # firebase: ^5.0.0
   queries: ^0.1.12
   firestore_wrapper_web:
         git:
