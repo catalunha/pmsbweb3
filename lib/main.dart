@@ -1,5 +1,13 @@
 import 'package:flutter_web/material.dart';
 import 'package:pmsbweb/bootstrap.dart';
+import 'package:pmsbweb/pages/controle/controle_acao_concluida_page.dart';
+import 'package:pmsbweb/pages/controle/controle_acao_crud_page.dart';
+import 'package:pmsbweb/pages/controle/controle_acao_informar_page.dart';
+import 'package:pmsbweb/pages/controle/controle_acao_list_page.dart';
+import 'package:pmsbweb/pages/controle/controle_acao_marcar_page.dart';
+import 'package:pmsbweb/pages/controle/controle_tarefa_concluida_list_page.dart';
+import 'package:pmsbweb/pages/controle/controle_tarefa_crud_page.dart';
+import 'package:pmsbweb/pages/controle/controle_tarefa_list_page.dart';
 // import 'package:pmsbweb/components/eixo.dart';
 import 'package:pmsbweb/pages/pages.dart';
 import 'package:firebase/firebase.dart';
@@ -156,8 +164,48 @@ class MyApp extends StatelessWidget {
             "/administracao/home": (context) => AdministracaoHomePage(),
             "/administracao/perfil": (context) => AdministracaoPerfilPage(),
 
-            //controle
-            "/controle/home": (context) => ControleHomePage(),
+
+        //controle
+        "/controle/home": (context) => ControleTarefaListPage(authBloc),
+        "/controle/acao_marcar": (context) {
+          final settings = ModalRoute.of(context).settings;
+          return ControleAcaoMarcarPage(settings.arguments);
+        },
+        "/controle/acao_informar_urlobs": (context) {
+          final settings = ModalRoute.of(context).settings;
+          return ControleAcaoInformarPage(settings.arguments);
+        },
+        "/controle/tarefa_crud": (context) {
+          final settings = ModalRoute.of(context).settings;
+          ControlePageArguments args = settings.arguments;
+
+          return ControleTarefaCrudPage(
+            authBloc: authBloc,
+            tarefa: args.tarefa,
+            acao: args.acao,
+            acaoNome: args.acaoNome,
+          );
+        },
+        // "/controle/tarefa_crud": (context) {
+        //   final settings = ModalRoute.of(context).settings;
+        //   return ControleTarefaCrudPage(authBloc, settings.arguments);
+        // },
+        "/controle/acao_list": (context) {
+          final settings = ModalRoute.of(context).settings;
+          return ControleAcaoListPage(settings.arguments);
+        },
+        "/controle/acao_crud": (context) {
+          final settings = ModalRoute.of(context).settings;
+          ControlePageArguments args = settings.arguments;
+          return ControleAcaoCrudPage(tarefaID: args.tarefa, acaoID: args.acao);
+        },
+        "/controle/concluida": (context) =>
+            ControleTarefaConcluidaListPage(authBloc),
+        "/controle/acao_concluida": (context) {
+          final settings = ModalRoute.of(context).settings;
+          return ControleAcaoConcluidaPage(settings.arguments);
+        },
+
           },
       //   ),
       // ),

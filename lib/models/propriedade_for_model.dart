@@ -1,4 +1,27 @@
+
+
+
 import 'package:pmsbweb/bootstrap.dart';
+
+class ControleTarefaID {
+  String id;
+  String nome;
+
+  ControleTarefaID({this.id, this.nome});
+
+  ControleTarefaID.fromMap(Map<dynamic, dynamic> map) {
+    if (map.containsKey('id')) id = map['id'];
+    if (map.containsKey('nome')) nome = map['nome'];
+  }
+
+  Map<dynamic, dynamic> toMap() {
+    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
+    if (id != null) data['id'] = this.id;
+    if (nome != null) data['nome'] = this.nome;
+    return data;
+  }
+}
+
 
 ///Trata da gestão de acesso dos usuarios ao google drive
 class UsuarioGoogleDrive {
@@ -8,22 +31,27 @@ class UsuarioGoogleDrive {
   /// Codigo da permissao de acesso daquele usuario aquele arquivo no google drive
   String permissaoID;
 
-  /// Pode ser escrever/comentar/ler se null o acesso do usuario será retirado.
-  String tipo;
+  /// Pode ser writer/reader se null o acesso do usuario será retirado.
+  String permissao;
 
-  UsuarioGoogleDrive({this.atualizar, this.permissaoID, this.tipo});
+  /// o ID do usuario na Collection Usuario
+  String usuarioID;
+
+  UsuarioGoogleDrive({this.atualizar, this.permissaoID, this.permissao,this.usuarioID});
 
   UsuarioGoogleDrive.fromMap(Map<dynamic, dynamic> map) {
     if (map.containsKey('atualizar')) atualizar = map['atualizar'];
     if (map.containsKey('permissaoID')) permissaoID = map['permissaoID'];
-    if (map.containsKey('tipo')) tipo = map['tipo'];
+    if (map.containsKey('permissao')) permissao = map['permissao'];
+    if (map.containsKey('usuarioID')) usuarioID = map['usuarioID'];
   }
 
   Map<dynamic, dynamic> toMap() {
     final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
     if (atualizar != null) data['atualizar'] = this.atualizar;
     if (permissaoID != null) data['permissaoID'] = this.permissaoID;
-    if (tipo != null) data['tipo'] = this.tipo;
+    if (permissao != null) data['permissao'] = this.permissao;
+    if (usuarioID != null) data['usuarioID'] = this.usuarioID;
     return data;
   }
 
@@ -33,7 +61,8 @@ class UsuarioGoogleDrive {
         this.atualizar ?? Bootstrap.instance.FieldValue.delete();
     data['permissaoID'] =
         this.permissaoID ?? Bootstrap.instance.FieldValue.delete();
-    data['tipo'] = this.tipo ?? Bootstrap.instance.FieldValue.delete();
+    data['permissao'] = this.permissao ?? Bootstrap.instance.FieldValue.delete();
+    data['usuarioID'] = this.usuarioID ?? Bootstrap.instance.FieldValue.delete();
     return data;
   }
 }
@@ -100,83 +129,6 @@ class UploadID {
     data['url'] = this.url ?? Bootstrap.instance.FieldValue.delete();
     data['localPath'] =
         this.localPath ?? Bootstrap.instance.FieldValue.delete();
-    return data;
-  }
-}
-
-class ArquivoProduto {
-  // String id;
-  String titulo;
-  String tipo;
-  String rascunhoIdUpload;
-  String rascunhoUrl;
-  String rascunhoLocalPath;
-  String editadoIdUpload;
-  String editadoUrl;
-  String editadoLocalPath;
-
-  ArquivoProduto(
-      {
-      // this.id,
-      this.titulo,
-      this.tipo,
-      this.rascunhoIdUpload,
-      this.rascunhoUrl,
-      this.rascunhoLocalPath,
-      this.editadoIdUpload,
-      this.editadoUrl,
-      this.editadoLocalPath});
-
-  ArquivoProduto.fromMap(Map<dynamic, dynamic> map) {
-    // if (map.containsKey('id')) id = map['id'];
-    if (map.containsKey('titulo')) titulo = map['titulo'];
-    if (map.containsKey('tipo')) tipo = map['tipo'];
-    if (map.containsKey('rascunhoIdUpload'))
-      rascunhoIdUpload = map['rascunhoIdUpload'];
-    if (map.containsKey('rascunhoUrl')) rascunhoUrl = map['rascunhoUrl'];
-    if (map.containsKey('rascunhoLocalPath'))
-      rascunhoLocalPath = map['rascunhoLocalPath'];
-    if (map.containsKey('editadoIdUpload'))
-      editadoIdUpload = map['editadoIdUpload'];
-    if (map.containsKey('editadoUrl')) editadoUrl = map['editadoUrl'];
-    if (map.containsKey('editadoLocalPath'))
-      editadoLocalPath = map['editadoLocalPath'];
-  }
-
-  Map<dynamic, dynamic> toMap() {
-    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
-    // if (id != null) data['id'] = this.id;
-    if (titulo != null) data['titulo'] = this.titulo;
-    if (tipo != null) data['tipo'] = this.tipo;
-    if (rascunhoIdUpload != null)
-      data['rascunhoIdUpload'] = this.rascunhoIdUpload;
-    if (rascunhoUrl != null) data['rascunhoUrl'] = this.rascunhoUrl;
-    if (rascunhoLocalPath != null)
-      data['rascunhoLocalPath'] = this.rascunhoLocalPath;
-    if (editadoIdUpload != null) data['editadoIdUpload'] = this.editadoIdUpload;
-    if (editadoUrl != null) data['editadoUrl'] = this.editadoUrl;
-    if (editadoLocalPath != null)
-      data['editadoLocalPath'] = this.editadoLocalPath;
-    return data;
-  }
-
-  Map<dynamic, dynamic> toMapFirestore() {
-    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
-    // data['id'] = this.id ?? Bootstrap.instance.FieldValue.delete();
-    data['titulo'] = this.titulo ?? Bootstrap.instance.FieldValue.delete();
-    data['tipo'] = this.tipo ?? Bootstrap.instance.FieldValue.delete();
-    data['rascunhoIdUpload'] =
-        this.rascunhoIdUpload ?? Bootstrap.instance.FieldValue.delete();
-    data['rascunhoUrl'] =
-        this.rascunhoUrl ?? Bootstrap.instance.FieldValue.delete();
-    data['rascunhoLocalPath'] =
-        this.rascunhoLocalPath ?? Bootstrap.instance.FieldValue.delete();
-    data['editadoIdUpload'] =
-        this.editadoIdUpload ?? Bootstrap.instance.FieldValue.delete();
-    data['editadoUrl'] =
-        this.editadoUrl ?? Bootstrap.instance.FieldValue.delete();
-    data['editadoLocalPath'] =
-        this.editadoLocalPath ?? Bootstrap.instance.FieldValue.delete();
     return data;
   }
 }

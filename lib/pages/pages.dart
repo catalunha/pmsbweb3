@@ -70,5 +70,3 @@ export 'package:pmsbweb/pages/sintese/sintese_home_page.dart';
 export 'package:pmsbweb/pages/administracao/administracao_home_page.dart';
 export 'package:pmsbweb/pages/administracao/administracao_perfil_page.dart';
 
-//controle
-export 'package:pmsbweb/pages/controle/controle_home_page.dart';

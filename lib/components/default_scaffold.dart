@@ -26,7 +26,7 @@ class DefaultDrawer extends StatelessWidget {
     // rotas["/produto/home"] = Rota("Produto", Icons.chrome_reader_mode);
     //rotas["/comunicacao/home"] = Rota("Comunicação", Icons.contact_mail);
     // rotas["/administracao/home"] = Rota("Administração", Icons.business_center);
-    // rotas["/controle/home"] = Rota("Controle", Icons.control_point);
+    rotas["/controle/home"] = Rota("Controle", Icons.control_point);
   }
   @override
   Widget build(BuildContext context) {

@@ -191,7 +191,7 @@ class ProdutoCRUDPageBloc {
         for (var item in usuariosEixoLista) {
           usuarioGoogleDrive[item.email] = UsuarioGoogleDrive(
             atualizar: false,
-            tipo: 'escrever',
+            permissao: 'escrever',
           );
         }
         // Criando googledriveCollection
